@@ -1,16 +1,9 @@
 'use client';
 
+import { Expense } from "@/app/global";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-interface Expense {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  amount: number;
-}
 
 interface ExpenseFormData {
   name: string;

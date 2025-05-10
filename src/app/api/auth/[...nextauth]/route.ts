@@ -50,7 +50,6 @@ export const authOptions: AuthOptions = {
         }
         return user;
       },
-      allowDangerousEmailAccountLinking: true,
     })
   ],
   debug: process.env.NODE_ENV === 'development',

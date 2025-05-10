@@ -7,18 +7,7 @@ import AddOrUpdateExpenseForm from "./components/AddOrUpdateExpenseForm";
 import ExpenseGraph from "./components/MyGraphs";
 import MyGraphs from "./components/MyGraphs";
 import Page from "components/Page";
-
-// Define API expense shape
-interface Expense {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  amount: number;
-  month: number;
-  year: number;
-  date: string;
-}
+import { Expense } from "@/app/global";
 
 type RightScreenStatus = "ADD" | "EDIT" | "GRAPH";
 

@@ -2,6 +2,7 @@
 
 "use client";
 
+import { Expense } from "@/app/global";
 import React, { useState, useEffect } from "react";
 
 interface ExpenseListProps {
@@ -9,14 +10,6 @@ interface ExpenseListProps {
   loading: boolean;
   onEdit?: (expense: Expense) => void;
   activeExpense?: string;
-}
-
-interface Expense {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  amount: number;
 }
 
 export default function ExpenseList({
