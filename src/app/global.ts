@@ -10,3 +10,7 @@ export interface Expense {
   month: number;
   year: number;
 }
+
+export interface Context {
+  user?: object
+}
