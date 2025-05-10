@@ -16,10 +16,6 @@ const IntroductionSection = ({ expenses }: { expenses: Expense[] }) => {
   const month = now.getMonth() + 1;
 
   useEffect(() => {
-    setExpenseList(expenses);
-  }, []);
-
-  useEffect(() => {
     let newExpenseList = expenses?.sort((a, b) => b.amount - a.amount);
     if (newExpenseList?.length > 5) {
       newExpenseList.splice(5);
@@ -45,7 +41,6 @@ const IntroductionSection = ({ expenses }: { expenses: Expense[] }) => {
       ) : (
         <ul>
           {expenseList?.map((k) => {
-            console.log(k);
             return (
               <li key={k.id} className={"flex justify-between pb-2"}>
                 <div>
