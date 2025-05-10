@@ -1,10 +1,13 @@
 // src/app/(site)/dashboard/components/IntroductionSection.tsx
+"use client";
 
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import React, { useContext } from "react";
+import { PageContext } from "@/app/context/PageContext";
 
-async function IntroductionSection() {
-  const currentUser = await getCurrentUser();
-  console.log({ currentUser });
+const IntroductionSection = () => {
+  const context = useContext(PageContext);
+  const currentUser = context?.user;
+
   return (
     <>
       <h1 className="text-3xl font-bold mb-4 text-gray-900">
@@ -15,6 +18,6 @@ async function IntroductionSection() {
       <div className="text-gray-500">Your expenses will appear here.</div>
     </>
   );
-}
+};
 
 export default IntroductionSection;
