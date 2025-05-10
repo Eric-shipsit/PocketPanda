@@ -6,7 +6,7 @@ export interface Expense {
   description: string;
   category: string;
   amount: number;
+  day: number;
   month: number;
   year: number;
-  date: Date;
 }

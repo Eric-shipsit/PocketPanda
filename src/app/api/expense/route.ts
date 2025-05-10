@@ -37,7 +37,6 @@ export async function POST(
         ? year
         : now.getFullYear();
 
-    // Turning any non paychecks negative
     const newExpense = await prisma.expense.create({
       data: {
         name,

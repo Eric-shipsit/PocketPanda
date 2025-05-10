@@ -1,3 +1,12 @@
+Set up 
+1. Pull project
+2. make .env file
+(Message Eric for the contents)
+3. npm install
+4. npx prisma db push
+5. npx prisma generate
+6. npm run dev
+
 TO-DO
 
 PP-001
