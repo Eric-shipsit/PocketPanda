@@ -3,18 +3,9 @@
 "use client";
 
 import PieChartExpense from "@/app/components/graphs/PieChartExpense";
+import { Expense } from "@/app/global";
 
 type GraphCategory = "ALL" | "NECESSITIES" | "FUN";
-
-interface Expense {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  amount: number;
-  month: number;
-  year: number;
-}
 
 interface MyGraphsProps {
   data: Expense[];
