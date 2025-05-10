@@ -23,14 +23,12 @@ const DashboardContent = () => {
 
       let formattedExpenses = {};
       for (const item of data) {
-        console.log(item);
         if (!(item.month in formattedExpenses)) {
           formattedExpenses[item.month] = { total: 0, individual: [] };
         }
         formattedExpenses[item.month].total += item.amount;
         formattedExpenses[item.month].individual.push(item);
       }
-      console.log(formattedExpenses);
       setExpenses(formattedExpenses);
     } catch (error) {
       console.error("Failed to load expenses:", error);
@@ -44,19 +42,22 @@ const DashboardContent = () => {
     loadExpenses();
   }, []);
 
+    const now = new Date();
+    const month = now.getMonth() + 1
+
   return (
     <div className="min-w-full mx-auto">
       <div className="grid grid-cols-2 gap-6">
         {/* Main Welcome Box */}
         <Card styles="col-span-2">
-          <IntroductionSection />
+          <IntroductionSection expenses={expenses[month]?.individual}/>
         </Card>
 
         {/* Additional Box 1 */}
         <Card>
           <>
             <h2 className="text-xl font-semibold mb-2 text-gray-900">
-              Past Months
+              This Year
             </h2>
             <ul className="space-y-2 overflow-auto">
               {Object.keys(expenses).map((k) => {
@@ -65,7 +66,7 @@ const DashboardContent = () => {
                     <div>
                       <p className="font-medium">{MONTH_MAP[k]}</p>
                       <p className="text-sm text-gray-500">
-                        {expenses[k].total} &middot;
+                        ${expenses[k].total}
                       </p>
                     </div>
                   </li>

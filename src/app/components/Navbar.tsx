@@ -20,7 +20,7 @@ export default function Navbar() {
           <div className="flex items-center">
             <button
               onClick={() => signOut()}
-              className="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+              className="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition cursor-pointer"
             >
               Sign Out
             </button>
