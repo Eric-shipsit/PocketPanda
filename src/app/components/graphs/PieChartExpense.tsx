@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import { Expense } from "@/app/global";
+import React, { useMemo, useState, useEffect, act, useRef } from "react";
 import {
   ResponsiveContainer,
   PieChart,
@@ -8,88 +9,103 @@ import {
   Legend,
 } from "recharts";
 
-interface PieChartItem {
-  category: string;
-  amount: number;
+interface ChartSlice {
+  name: string;
+  value: number;
 }
 
 interface PieChartExpenseProps {
-  expenses: PieChartItem[];
+  expenses: Expense[];
   colors?: string[];
-  setActiveExpense?: Function;
+  setActiveExpense?: (category: string) => void;
 }
 
 export default function PieChartExpense({
   expenses = [],
-  colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"],
+  colors = [
+    "#0088FE", "#00C49F", "#FFBB28", "#FF8042",
+    "#A28FDB", "#FF6F61", "#6B5B95", "#88B04B",
+    "#F7CAC9", "#92A8D1", "#955251", "#B565A7",
+    "#009B77"
+  ],
   setActiveExpense = () => {},
 }: PieChartExpenseProps) {
-  // Aggregate amounts by category
-  const data = useMemo(() => {
+
+  const categories = useMemo(
+    () => Array.from(new Set(expenses.map(e => e.category))).sort(),
+    [expenses]
+  );
+  
+  const [activeCategories, setActiveCategories] = useState<string[]>([]);
+  const didInit = useRef(false);
+  
+  useEffect(() => {
+    if (!didInit.current && categories.length > 0) {
+      setActiveCategories(categories);
+      didInit.current = true;
+    }
+  }, [categories]);
+  
+  const data = useMemo<ChartSlice[]>(() => {
     const map: Record<string, number> = {};
     expenses.forEach(({ category, amount }) => {
       map[category] = (map[category] || 0) + amount;
     });
     return Object.entries(map).map(([name, value]) => ({ name, value }));
   }, [expenses]);
-  // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState([] as string[]);
-  const handleSliceClick = (category: string) => {
-    console.log("Clicked ", category);
+  
+  const displayData = useMemo<ChartSlice[]>(() => {
+    return data.map(({ name, value }) => ({
+      name,
+      value: activeCategories.includes(name) ? value : 0,
+    }));
+  }, [data, activeCategories]);
+
+  const toggleCategory = (category: string) => {
+    if (activeCategories.length === 1 && category === activeCategories.at(0)) {
+      setActiveCategories(categories);
+    }
+    setActiveCategories(prev =>
+      prev.includes(category)
+        ? prev.filter(cat => cat !== category)
+        : [...prev, category]
+    );
   };
+
   return (
-    <div className="w-full">
+
+    <div className="h-full">
       <ResponsiveContainer width="100%" aspect={1}>
         <PieChart>
           <Pie
-            data={data}
+            data={displayData}
             dataKey="value"
             nameKey="name"
             cx="50%"
             cy="50%"
             outerRadius="60%"
-            label
-            onClick={(entry) => {
-              setSelectedCategory([entry.name]);
-              setActiveExpense(entry.name);
-              console.log(selectedCategory);
+            onClick={entry => {
+              const category = entry.name as string;
+
+              setActiveCategories([category]);
             }}
           >
             {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={colors[index % colors.length]}
-              />
+              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
             ))}
           </Pie>
           <Tooltip />
           <Legend
             verticalAlign="bottom"
+            onClick={entry => toggleCategory(String(entry.value))}
             height={36}
-            onClick={(entry) => {
-              var myList = selectedCategory;
-              const category = String(entry.value);
-              if (selectedCategory.includes(category)) {
-                const index = myList.indexOf(category);
-                if (index > -1) {
-                  // only splice array when item is found
-                  myList.splice(index, 1); // 2nd parameter means remove one item only
-                }
-              } else {
-                myList.push(category);
-              }
-              setSelectedCategory(myList);
-              setActiveExpense(...myList);
-
-              console.log(selectedCategory);
-            }}
             formatter={(value, entry) => {
-              const isSelected = selectedCategory === entry.value;
+              const category = entry.value as string;
               return (
                 <span
                   style={{
-                    color: isSelected ? "#ccc" : "#000",
-                    cursor: "pointer",
+                    color: activeCategories.includes(category) ? '#000' : '#ccc',
+                    cursor: 'pointer',
                   }}
                 >
                   {value}
@@ -99,6 +115,7 @@ export default function PieChartExpense({
           />
         </PieChart>
       </ResponsiveContainer>
+
     </div>
   );
 }

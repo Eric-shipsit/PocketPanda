@@ -68,17 +68,18 @@ export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  const { id } = await params;
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  const deleted = await prisma.expense.deleteMany({
+    where: { userId: currentUser.id, id },
+  });
 
-  const { id } = params;
-  const existing = await prisma.expense.findFirst({ where: { id, userId: currentUser.id } });
-  if (!existing) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  if (deleted.count === 0) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  await prisma.expense.delete({ where: { id } });
   return NextResponse.json({ success: true });
 }

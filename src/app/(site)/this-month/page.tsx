@@ -62,7 +62,7 @@ export default function TheMonthPage() {
     <Page>
       <div className="w-full flex flex-col md:flex-row overflow-auto bg-blue-100 max-h-full">
         {/* Left Column (100% width on mobile, 40% width on md+, full viewport height or min 700px) */}
-        <div className="w-full md:w-1/2 bg-blue-100 p-6 flex flex-col">
+        <div className="w-full md:w-1/2 bg-blue-100 p-6 flex flex-col overflow-auto">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">
             {monthName} {year}
           </h2>
@@ -98,6 +98,11 @@ export default function TheMonthPage() {
               onCancel={() => {
                 setRightScreenStatus("GRAPH");
               }}
+              onDelete={()=>{
+                setRefreshKey(refreshKey + 1);
+                setRightScreenStatus("GRAPH");
+                setUpdateExpense(undefined);
+              }}
             />
           )}
           {rightScreenStatus === "EDIT" && (
@@ -110,6 +115,11 @@ export default function TheMonthPage() {
                 setUpdateExpense(undefined);
               }}
               onCancel={() => {
+                setRightScreenStatus("GRAPH");
+                setUpdateExpense(undefined);
+              }}
+              onDelete={()=>{
+                setRefreshKey(refreshKey + 1);
                 setRightScreenStatus("GRAPH");
                 setUpdateExpense(undefined);
               }}

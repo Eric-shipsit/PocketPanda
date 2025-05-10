@@ -18,9 +18,10 @@ interface Props {
   onSuccess: (expense: Expense) => void;
   // Called to cancel/close the form
   onCancel: () => void;
+  onDelete: () => void;
 }
 
-export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCancel }: Props) {
+export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCancel, onDelete }: Props) {
   const router = useRouter();
   const isEdit = Boolean(initialData);
   const {
@@ -65,6 +66,18 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
     }
   };
 
+  const triggerDelete = async (expenseId: string) => {
+    try {
+      const res = await fetch(`/api/expense/${expenseId}`, {
+        method: "DELETE",
+      });
+      onDelete();
+      router.refresh();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-white rounded-lg shadow">
       <h2 className="text-xl font-semibold">{isEdit ? 'Edit Expense' : 'New Expense'}</h2>
@@ -103,7 +116,7 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
           <option value="food">Food</option>
           <option value="rent">Rent</option>
           <option value="utilities">Utilities</option>
-          <option value="utilities">Necessities</option>
+          <option value="necessities">Necessities</option>
           <option value="entertainment">Entertainment</option>
           <option value="school">School</option>
           <option value="shopping">Shopping</option>
@@ -124,6 +137,19 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
       </div>
 
       <div className="flex justify-end space-x-2 pt-4">
+        {isEdit && (
+          <button
+            type="button"
+            onClick={ () => {
+              if (initialData && initialData.id) {
+                triggerDelete(initialData?.id);
+              }
+            }}
+            className="px-4 py-2 bg-red-600 rounded hover:bg-red-700"
+          >
+            Delete
+          </button>
+        )}
         <button
           type="button"
           onClick={onCancel}

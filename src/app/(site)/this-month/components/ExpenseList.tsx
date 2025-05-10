@@ -21,16 +21,14 @@ export default function ExpenseList({
   const [highlightedExpense, setHighlightedExpense] = useState("");
 
   useEffect(() => {
-    console.log(activeExpense);
     setHighlightedExpense(activeExpense);
   }, [activeExpense]);
 
   if (loading) return <p>Loading…</p>;
 
   return (
-    <ul className="space-y-2">
+    <ul className="space-y-2 overflow-auto">
       {expenses.map((exp) => {
-        console.log(highlightedExpense, exp.name);
         return (
           <li
             key={exp.id}

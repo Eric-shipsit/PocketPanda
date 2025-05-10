@@ -18,7 +18,7 @@ export default function MyGraphs({ data, setActiveExpense }: MyGraphsProps) {
   return (
     <PieChartExpense
       expenses={listOfExpenses}
-      setActiveExpense={setActiveExpense}
+      // setActiveExpense={setActiveExpense}
     />
   );
 }
