@@ -1,36 +1,24 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+TO-DO
 
-## Getting Started
+PP-001
+1. Front end improvements on landing page 
+2. Potentially Pocket Panda Mascot
 
-First, run the development server:
+PP-002
+1. "You should only use "next/router" on the client side of your app." error in AuthForm. Could use 'use client' or do the routing in page.tsx
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+PP-003
+1. Profile Section Creation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+PP-004
+1. Way to direct to /the-month
+2. Potentially rename to /this-month or something similar/better
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+PP-005 - Front-end for the-month page
+1. PP-005A - Add Expense UI improvement
+2. PP-005B - Expense Item UI improvment
+3. PP-005C - Add/Update Expense UI improvement
+4. PP-006C - Graph Section UI Improvement
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+PP-006
+1. Empty view. When the user has nothing on their account.
