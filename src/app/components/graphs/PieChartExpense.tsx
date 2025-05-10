@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, { useMemo, useState } from "react";
 import {
   ResponsiveContainer,
   PieChart,
@@ -6,7 +6,7 @@ import {
   Cell,
   Tooltip,
   Legend,
-} from 'recharts';
+} from "recharts";
 
 interface PieChartItem {
   category: string;
@@ -16,12 +16,13 @@ interface PieChartItem {
 interface PieChartExpenseProps {
   expenses: PieChartItem[];
   colors?: string[];
+  setActiveExpense?: Function;
 }
-
 
 export default function PieChartExpense({
   expenses = [],
-  colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'],
+  colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"],
+  setActiveExpense = () => {},
 }: PieChartExpenseProps) {
   // Aggregate amounts by category
   const data = useMemo(() => {
@@ -34,7 +35,7 @@ export default function PieChartExpense({
   // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState([] as string[]);
   const handleSliceClick = (category: string) => {
-    console.log('Clicked ', category);
+    console.log("Clicked ", category);
   };
   return (
     <div className="w-full">
@@ -50,11 +51,15 @@ export default function PieChartExpense({
             label
             onClick={(entry) => {
               setSelectedCategory([entry.name]);
+              setActiveExpense(entry.name);
               console.log(selectedCategory);
             }}
           >
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+              <Cell
+                key={`cell-${index}`}
+                fill={colors[index % colors.length]}
+              />
             ))}
           </Pie>
           <Tooltip />
@@ -63,16 +68,19 @@ export default function PieChartExpense({
             height={36}
             onClick={(entry) => {
               var myList = selectedCategory;
-              const category = String(entry.value)
+              const category = String(entry.value);
               if (selectedCategory.includes(category)) {
                 const index = myList.indexOf(category);
-                if (index > -1) { // only splice array when item is found
+                if (index > -1) {
+                  // only splice array when item is found
                   myList.splice(index, 1); // 2nd parameter means remove one item only
                 }
               } else {
                 myList.push(category);
               }
               setSelectedCategory(myList);
+              setActiveExpense(...myList);
+
               console.log(selectedCategory);
             }}
             formatter={(value, entry) => {
@@ -80,8 +88,8 @@ export default function PieChartExpense({
               return (
                 <span
                   style={{
-                    color: isSelected ? '#ccc' : '#000',
-                    cursor: 'pointer',
+                    color: isSelected ? "#ccc" : "#000",
+                    cursor: "pointer",
                   }}
                 >
                   {value}

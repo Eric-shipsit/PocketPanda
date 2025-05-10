@@ -1,10 +1,10 @@
 // src/app/(site)/the-month/components/ExpenseList.tsx
 
-'use client';
+"use client";
 
 import PieChartExpense from "@/app/components/graphs/PieChartExpense";
 
-type GraphCategory = 'ALL' | 'NECESSITIES' | 'FUN';
+type GraphCategory = "ALL" | "NECESSITIES" | "FUN";
 
 interface Expense {
   id: string;
@@ -17,13 +17,17 @@ interface Expense {
 }
 
 interface MyGraphsProps {
-  data : Expense[];
+  data: Expense[];
+  setActiveExpense?: Function;
 }
 
-export default function MyGraphs({data} : MyGraphsProps) {
-  const listOfExpenses = data.filter(item => item.category != 'paycheck');
-  const income = data.filter(item => item.category == 'paycheck');
+export default function MyGraphs({ data, setActiveExpense }: MyGraphsProps) {
+  const listOfExpenses = data.filter((item) => item.category != "paycheck");
+  const income = data.filter((item) => item.category == "paycheck");
   return (
-    <PieChartExpense expenses={listOfExpenses}/>
+    <PieChartExpense
+      expenses={listOfExpenses}
+      setActiveExpense={setActiveExpense}
+    />
   );
 }
