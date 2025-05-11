@@ -1,7 +1,7 @@
 // src/app/(site)/components/AuthForm.tsx
 'use client';
 
-import Button from "@/app/components/Button";
+import Button from "@/app/components/buttons/Button";
 import Input from "@/app/components/inputs/Input";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";

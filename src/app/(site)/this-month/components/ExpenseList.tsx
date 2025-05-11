@@ -2,6 +2,7 @@
 
 "use client";
 
+import TextButton from "@/app/components/buttons/TextButton";
 import { Expense } from "@/app/global";
 import React, { useState, useEffect } from "react";
 
@@ -44,12 +45,10 @@ export default function ExpenseList({
 
             <div className="flex items-center space-x-4">
               <p className="font-semibold">${exp.amount.toFixed(2)}</p>
-              <button
+              <TextButton
                 onClick={() => onEdit?.(exp)}
-                className="text-blue-600 hover:text-blue-800 text-sm"
-              >
-                Edit
-              </button>
+                text="Edit"
+              />
             </div>
           </li>
         );
