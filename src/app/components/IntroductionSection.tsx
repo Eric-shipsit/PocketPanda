@@ -4,13 +4,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PageContext } from "@/app/context/PageContext";
 import Link from "next/link";
-import { MONTH_MAP } from "@/app/common";
-import { Expense } from "interfaces";
+import { Expense, MONTH_MAP } from "global";
+
+interface User {
+  name?: string;
+  email?: string;
+}
 
 const IntroductionSection = ({ expenses }: { expenses: Expense[] }) => {
   const [expenseList, setExpenseList] = useState<Expense[]>([]);
   const context = useContext(PageContext);
-  const currentUser = context?.user;
+  const currentUser: User | undefined = context?.user;
 
   const now = new Date();
   const month = now.getMonth() + 1;
@@ -35,9 +39,7 @@ const IntroductionSection = ({ expenses }: { expenses: Expense[] }) => {
       </h2>
 
       {expenseList?.length === 0 ? (
-        <p className="text-gray-700 mb-6">
-          No expenses to date
-        </p>
+        <p className="text-gray-700 mb-6">No expenses to date</p>
       ) : (
         <ul>
           {expenseList?.map((k) => {

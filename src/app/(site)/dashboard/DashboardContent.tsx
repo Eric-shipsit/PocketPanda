@@ -3,12 +3,21 @@
 import React, { useState, useEffect } from "react";
 import IntroductionSection from "components/IntroductionSection";
 import Card from "components/Card";
-import { Expense } from "interfaces";
-import { MONTH_MAP } from "@/app/common";
+import { Expense, MONTH_MAP } from "global";
+
+interface MonthlyExpense {
+    month: number;
+    total: number;
+    individual: Expense[];
+}
+
+interface FormattedExpense {
+    [index: number]: MonthlyExpense;
+}
 
 const DashboardContent = () => {
   const [loading, setLoading] = useState<Boolean>(false);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, setExpenses] = useState<FormattedExpense>([]);
 
   const loadExpenses = async () => {
     setLoading(true);
@@ -21,10 +30,10 @@ const DashboardContent = () => {
       }
       const data: Expense[] = await res.json();
 
-      let formattedExpenses = {};
+      let formattedExpenses: FormattedExpense = {};
       for (const item of data) {
         if (!(item.month in formattedExpenses)) {
-          formattedExpenses[item.month] = { total: 0, individual: [] };
+          formattedExpenses[item.month] = { total: 0, individual: [], month: item.month };
         }
         formattedExpenses[item.month].total += item.amount;
         formattedExpenses[item.month].individual.push(item);
@@ -64,9 +73,9 @@ const DashboardContent = () => {
                 return (
                   <li key={k} className={"flex justify-between border-b pb-2"}>
                     <div>
-                      <p className="font-medium">{MONTH_MAP[k]}</p>
+                      <p className="font-medium">{MONTH_MAP[Number(k)]}</p>
                       <p className="text-sm text-gray-500">
-                        ${expenses[k].total}
+                        ${expenses[Number(k)].total}
                       </p>
                     </div>
                   </li>

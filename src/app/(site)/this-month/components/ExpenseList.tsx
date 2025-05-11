@@ -9,7 +9,7 @@ interface ExpenseListProps {
   expenses: Expense[];
   loading: boolean;
   onEdit?: (expense: Expense) => void;
-  activeExpense?: string;
+  activeExpense: string;
 }
 
 export default function ExpenseList({
