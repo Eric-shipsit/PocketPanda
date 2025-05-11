@@ -2,6 +2,6 @@
 "use client";
 
 import { createContext } from "react";
-import { Context } from "interfaces";
+import { Context } from "global";
 
 export const PageContext = createContext<Context>({});
