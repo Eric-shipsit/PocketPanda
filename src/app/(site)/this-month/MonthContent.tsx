@@ -67,7 +67,7 @@ export default function MonthContent() {
         </div>
       </div>
       
-    <div className="w-full flex flex-col md:flex-row overflow-auto max-h-full">
+    <div className="w-full flex flex-col-reverse md:flex-row overflow-auto max-h-full">
       {/* Left Column (100% width on mobile, 40% width on md+, full viewport height or min 700px) */}
       <div className="w-full md:w-1/2  p-6 flex flex-col overflow-auto">
         
@@ -113,7 +113,6 @@ export default function MonthContent() {
           />
         )}
         {rightScreenStatus === "EDIT" && (
-          // TO-DO
           <AddOrUpdateExpenseForm
             initialData={updateExpense}
             onSuccess={(exp) => {
