@@ -15,7 +15,7 @@ const Page = async ({ children }: { children: JSX.Element }) => {
   } finally {
     return (
       <PageWrapper values={{ user: curUser }}>
-        <div className="flex flex-col min-h-screen max-h-screen overflow-hidden">
+        <div className="flex flex-col h-auto md:min-h-screen md:max-h-screen md:overflow-hidden">
           <Navbar />
           <div className=" bg-gray-100 p-6 grow overflow-auto flex">
             {children}

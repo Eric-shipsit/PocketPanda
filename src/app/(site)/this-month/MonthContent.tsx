@@ -54,12 +54,17 @@ export default function MonthContent() {
   const year = now.getFullYear();
 
   return (
-    <div className="w-full flex flex-col md:flex-row overflow-auto bg-blue-100 max-h-full">
-      {/* Left Column (100% width on mobile, 40% width on md+, full viewport height or min 700px) */}
-      <div className="w-full md:w-1/2 bg-blue-100 p-6 flex flex-col overflow-auto">
+    <div className="w-full flex flex-col ">
+      <div className = "w-full flex flex-col">
         <h2 className="text-2xl font-semibold text-gray-900 mb-4">
           {monthName} {year}
         </h2>
+      </div>
+      
+    <div className="w-full flex flex-col md:flex-row overflow-auto max-h-full">
+      {/* Left Column (100% width on mobile, 40% width on md+, full viewport height or min 700px) */}
+      <div className="w-full md:w-1/2  p-6 flex flex-col overflow-auto">
+
         <button
           className="mb-4 px-4 py-2 bg-red-600 text-white font-medium rounded hover:bg-red-700 transition"
           onClick={() => {
@@ -120,6 +125,7 @@ export default function MonthContent() {
           />
         )}
       </div>
+    </div>
     </div>
   );
 }

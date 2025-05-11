@@ -61,7 +61,6 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
       onSuccess(saved);
       router.refresh();
     } catch (err) {
-      console.error(err);
       alert('Failed to save expense.');
     }
   };
@@ -74,7 +73,7 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
       onDelete();
       router.refresh();
     } catch (err) {
-      console.log(err);
+      alert('Failed to delete expense.');
     }
   }
 
