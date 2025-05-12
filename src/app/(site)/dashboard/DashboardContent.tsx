@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import IntroductionSection from "components/IntroductionSection";
+import PieChartExpense from "components/graphs/PieChartExpense";
 import Card from "components/Card";
 import { Expense, MONTH_MAP } from "global";
 import Skeleton from "react-loading-skeleton";
@@ -16,6 +17,15 @@ interface MonthlyExpense {
 interface FormattedExpense {
   [index: number]: MonthlyExpense;
 }
+
+const getMostRecentMonth = (curMonth: number, expenses: FormattedExpense) => {
+  for (let i = curMonth; i >= 1; i--) {
+    if (expenses[i]) {
+      return i;
+    }
+  }
+  return -1;
+};
 
 const DashboardContent = () => {
   const [loading, setLoading] = useState<Boolean>(false);
@@ -58,22 +68,24 @@ const DashboardContent = () => {
   }, []);
 
   const now = new Date();
-  const month = now.getMonth() + 1;
+  const month = getMostRecentMonth(now.getMonth() + 1, expenses);
 
   return (
     <div className="min-w-full mx-auto max-h-full">
-      <div className="flex flex-col gap-6 h-full max-h-full">
+      <div className="flex flex-col gap-6 h-full">
         {/* Main Welcome Box */}
-        <Card className="max-h-1/2">
+        <Card>
           <IntroductionSection
-            expenses={expenses[month]?.individual}
+            expenses={expenses[now.getMonth() + 1]?.individual.filter(
+              (val) => val.category !== "paycheck"
+            )}
             loading={loading}
           />
         </Card>
 
-        <div className="flex flex-row min-w-full gap-6 max-h-1/2 h-1/2">
+        <div className="flex flex-col gap-6 grow md:flex-row max-h-full">
           {/* Additional Box 1 */}
-          <Card className="grow">
+          <Card className="min-w-3/4">
             <div className="flex flex-col h-full">
               <h2 className="text-xl font-semibold mb-2 text-gray-900">
                 This Year
@@ -107,13 +119,19 @@ const DashboardContent = () => {
           </Card>
 
           {/* Additional Box 2 */}
-          <Card className="grow">
-            <>
-              <h2 className="text-xl font-semibold mb-2 text-gray-900">
-                Box Title 2
+          <Card className="max-h-full grow">
+            <div className="flex flex-col h-full max-h-full max-w-full">
+              <h2 className="text-xl font-semibold text-gray-900">
+                {MONTH_MAP[month]}
               </h2>
-              <p className="text-gray-500">Additional content goes here.</p>
-            </>
+              <div className="overflow-auto grow">
+                <PieChartExpense
+                  expenses={expenses[month]?.individual.filter(
+                    (val) => val.category !== "paycheck"
+                  )}
+                />
+              </div>
+            </div>
           </Card>
         </div>
       </div>
