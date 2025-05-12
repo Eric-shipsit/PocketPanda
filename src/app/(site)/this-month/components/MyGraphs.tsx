@@ -21,7 +21,7 @@ export default function MyGraphs({ data, setActiveExpense }: MyGraphsProps) {
       {/* Tabs */}
       <div className="flex space-x-4 mb-4">
         <button
-          className={`px-4 py-2 rounded ${
+          className={`px-4 py-2 rounded cursor-pointer ${
             chartTracker === "PIE"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-black"
@@ -31,7 +31,7 @@ export default function MyGraphs({ data, setActiveExpense }: MyGraphsProps) {
           Pie Chart
         </button>
         <button
-          className={`px-4 py-2 rounded ${
+          className={`px-4 py-2 rounded cursor-pointer ${
             chartTracker === "CHART"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-black"

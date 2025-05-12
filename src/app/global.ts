@@ -12,7 +12,7 @@ export interface Expense {
 }
 
 export interface Context {
-  user?: object;
+  user?: User;
 }
 
 interface MonthMap {
@@ -33,3 +33,10 @@ export const MONTH_MAP: MonthMap = {
   11: "November",
   12: "December",
 };
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  image?: string;
+}
