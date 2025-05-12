@@ -5,13 +5,21 @@ import React, { useContext, useEffect, useState } from "react";
 import { PageContext } from "@/app/context/PageContext";
 import Link from "next/link";
 import { Expense, MONTH_MAP } from "global";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface User {
   name?: string;
   email?: string;
 }
 
-const IntroductionSection = ({ expenses }: { expenses: Expense[] }) => {
+const IntroductionSection = ({
+  expenses,
+  loading,
+}: {
+  expenses: Expense[];
+  loading: Boolean;
+}) => {
   const [expenseList, setExpenseList] = useState<Expense[]>([]);
   const context = useContext(PageContext);
   const currentUser: User | undefined = context?.user;
@@ -29,16 +37,31 @@ const IntroductionSection = ({ expenses }: { expenses: Expense[] }) => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-4 text-gray-900">
-        Welcome, {currentUser?.name}!
-      </h1>
-      <p className="text-gray-700 mb-6">Email: {currentUser?.email}</p>
+      {!currentUser?.name ? (
+        <Skeleton className="text-3xl mb-4 font-bold" />
+      ) : (
+        <h1 className="text-3xl mb-4 text-gray-900">
+          Welcome, {currentUser?.name}!
+        </h1>
+      )}
 
-      <h2 className="mb-2 text-2xl">
-        Your top expenses in {MONTH_MAP[month]}:
-      </h2>
+      {!currentUser?.email ? (
+        <Skeleton className="mb-6" />
+      ) : (
+        <p className="text-gray-700 mb-6">Email: {currentUser?.email}</p>
+      )}
 
-      {expenseList?.length === 0 ? (
+      {loading ? (
+        <Skeleton className="pb-6 text-2xl" />
+      ) : (
+        <h2 className="mb-2 text-2xl">
+          Your top expenses in {MONTH_MAP[month]}:
+        </h2>
+      )}
+
+      {loading ? (
+        <Skeleton className="pb-5" count={5} />
+      ) : expenseList?.length === 0 ? (
         <p className="text-gray-700 mb-6">No expenses to date</p>
       ) : (
         <ul>
@@ -55,12 +78,14 @@ const IntroductionSection = ({ expenses }: { expenses: Expense[] }) => {
         </ul>
       )}
 
-      <Link
-        href="/this-month"
-        className="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition float-right cursor-pointer"
-      >
-        Budget
-      </Link>
+      {!loading && (
+        <Link
+          href="/this-month"
+          className="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition float-right m-auto cursor-pointer"
+        >
+          Budget
+        </Link>
+      )}
     </>
   );
 };
