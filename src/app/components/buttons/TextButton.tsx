@@ -40,7 +40,7 @@ export default function TextButton({
   }
 
   return (
-    <button onClick={onClick} className="rounded hover:bg-gray-100">
+    <button onClick={onClick} className="rounded hover:bg-gray-100 cursor-pointer">
       {content}
     </button>
   );

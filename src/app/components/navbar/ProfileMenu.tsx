@@ -12,7 +12,7 @@ export type ProfileMenuProps = {
 export default function ProfileMenu({user} : ProfileMenuProps) {
   return (
     <Menu>
-      <MenuButton className="flex items-center space-x-1 rounded-full hover:bg-gray-100 p-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <MenuButton className="flex items-center space-x-1 rounded-full hover:bg-gray-100 p-1 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
         {user?.image ? (
           <img
             src={user.image}
@@ -30,7 +30,7 @@ export default function ProfileMenu({user} : ProfileMenuProps) {
         <MenuItem>
           <button
             onClick={() => {signOut()}}
-            className="block w-full text-left px-4 py-2 text-sm text-gray-700"
+            className="block w-full text-left px-4 py-2 text-sm text-gray-700 cursor-pointer"
           >
             Sign out
           </button>
