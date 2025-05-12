@@ -1,4 +1,4 @@
-// src/app/(site)/dashboard/components/IntroductionSection.tsx
+// src/app/components/IntroductionSection.tsx
 "use client";
 
 import React, { useContext, useEffect, useState } from "react";
@@ -37,7 +37,7 @@ const IntroductionSection = ({
   }, [expenses]);
 
   return (
-    <div className = "h-full overflow-auto">
+    <div className="h-full overflow-auto">
       {!currentUser?.name ? (
         <Skeleton className="text-3xl mb-4 font-bold" />
       ) : (
@@ -56,32 +56,31 @@ const IntroductionSection = ({
         <Skeleton className="pb-6 text-2xl" />
       ) : (
         <h2 className="mb-2 text-2xl">
-          Your top expenses in {MONTH_MAP[month]}:
+          Top expenses this month:
         </h2>
       )}
 
-      {loading ? (
-        <Skeleton className="pb-5" count={5} />
-      ) : expenseList?.length === 0 ? (
-        <p className="text-gray-700 mb-6">No expenses to date</p>
-      ) : (
-        <ul>
-          {expenseList?.map((k) => {
+      <div className="flex flex-row gap-6">
+        {loading ? (
+          <Skeleton className="pb-5" />
+        ) : expenseList?.length === 0 ? (
+          <p className="text-gray-700 mb-6">No expenses to date</p>
+        ) : (
+          expenseList?.map((k) => {
             return (
-              <li key={k.id} className={"flex justify-between pb-2"}>
+              <div key={k.id} className={"flex justify-between pb-2"}>
                 <div>
                   <p className="font-medium">{k.name}</p>
+                  <p className="text-xs">{k.category[0].toUpperCase() + k.category.slice(1)}</p>
                   <p className="text-sm text-gray-500">${k.amount}</p>
                 </div>
-              </li>
+              </div>
             );
-          })}
-        </ul>
-      )}
+          })
+        )}
+      </div>
 
-      {!loading && (
-        <TextButton text = "Go to this month..." href = "/this-month" />
-      )}
+      {!loading && <TextButton text="Go to this month..." href="/this-month" />}
     </div>
   );
 };
