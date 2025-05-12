@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Expense, MONTH_MAP } from "global";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import TextButton from "./buttons/TextButton";
 
 interface User {
   name?: string;
@@ -36,7 +37,7 @@ const IntroductionSection = ({
   }, [expenses]);
 
   return (
-    <>
+    <div className = "h-full overflow-auto">
       {!currentUser?.name ? (
         <Skeleton className="text-3xl mb-4 font-bold" />
       ) : (
@@ -79,14 +80,9 @@ const IntroductionSection = ({
       )}
 
       {!loading && (
-        <Link
-          href="/this-month"
-          className="px-3 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition float-right m-auto cursor-pointer"
-        >
-          Budget
-        </Link>
+        <TextButton text = "Go to this month..." href = "/this-month" />
       )}
-    </>
+    </div>
   );
 };
 

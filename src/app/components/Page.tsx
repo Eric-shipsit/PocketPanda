@@ -2,7 +2,7 @@
 "use server";
 
 import React, { JSX } from "react";
-import Navbar from "components/Navbar";
+import Navbar from "@/app/components/navbar/Navbar";
 import PageWrapper from "components/PageWrapper";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 
