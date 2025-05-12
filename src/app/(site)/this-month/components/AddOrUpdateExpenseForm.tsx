@@ -96,7 +96,7 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
         <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
         <textarea
           id="description"
-          {...register('description', { required: 'Description is required' })}
+          {...register('description')}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
           rows={3}
         />

@@ -8,6 +8,7 @@ interface TextButtonProps {
   icon?: ElementType;
   onClick?: () => void;
   size?: number;
+  color?: string;
 }
 
 export default function TextButton({
@@ -15,22 +16,21 @@ export default function TextButton({
   text,
   onClick,
   icon: Icon,
-  size = 14
+  size = 14,
+  color = "blue"
 }: TextButtonProps) {
 
   const content = (
     <span
-      style={{ fontSize: `${size}px` }}
+      style={{ fontSize: `${size}px`, color: `${color}`}}
       className={clsx(`
         inline-flex
         items-center
-        px-2 py-1
-      text-blue-600
         hover:underline
       `,
       )}
     >
-      {Icon && <Icon className="mr-1" />}
+      {Icon && <Icon size={size}/>}
       {text}
     </span>
   );

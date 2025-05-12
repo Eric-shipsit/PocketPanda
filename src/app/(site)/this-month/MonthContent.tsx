@@ -69,27 +69,31 @@ export default function MonthContent() {
       
     <div className="w-full flex flex-col-reverse md:flex-row overflow-auto max-h-full">
       {/* Left Column (100% width on mobile, 40% width on md+, full viewport height or min 700px) */}
-      <div className="w-full md:w-1/2  p-6 flex flex-col overflow-auto">
-        
-        <div className="w-full flex justify-end">
-          <TextButton
-            text=""
-            onClick={() => {
-              setRightScreenStatus("ADD");
-            }}
-            icon={Plus}
-            size={20}
-          />
+      <div className="w-full md:w-1/2 p-6 flex flex-col">
+        <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-3 pr-1 flex flex-col h-full">
+          <div className="w-full flex justify-between items-center pr-1">
+            <span className="text-lg">This Month's Expenses</span>
+            <TextButton
+              text=""
+              onClick={() => {
+                setRightScreenStatus("ADD");
+              }}
+              icon={Plus}
+              size={20}
+            />
+          </div>
+          <div className="mt-2 flex-1 overflow-auto">
+            <ExpenseList
+              expenses={expenses}
+              loading={loading}
+              onEdit={(expense) => {
+                setUpdateExpense(expense);
+                setRightScreenStatus("EDIT");
+              }}
+              activeExpense={activeExpense}
+            />
+          </div>
         </div>
-        <ExpenseList
-          expenses={expenses}
-          loading={loading}
-          onEdit={(expense) => {
-            setUpdateExpense(expense);
-            setRightScreenStatus("EDIT");
-          }}
-          activeExpense={activeExpense}
-        />
       </div>
       <div className="w-full md:w-1/2 p-6 flex flex-col">
         {rightScreenStatus === "GRAPH" && (
