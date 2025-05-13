@@ -55,9 +55,7 @@ const IntroductionSection = ({
       {loading ? (
         <Skeleton className="pb-6 text-2xl" />
       ) : (
-        <h2 className="mb-2 text-2xl">
-          Top expenses this month:
-        </h2>
+        <h2 className="mb-2 text-2xl">Top expenses this month:</h2>
       )}
 
       <div className="flex flex-row gap-6">
@@ -71,7 +69,9 @@ const IntroductionSection = ({
               <div key={k.id} className={"flex justify-between pb-2"}>
                 <div>
                   <p className="font-medium">{k.name}</p>
-                  <p className="text-xs">{k.category[0].toUpperCase() + k.category.slice(1)}</p>
+                  <p className="text-xs">
+                    {k.category[0].toUpperCase() + k.category.slice(1)}
+                  </p>
                   <p className="text-sm text-gray-500">${k.amount}</p>
                 </div>
               </div>

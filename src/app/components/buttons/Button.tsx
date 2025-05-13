@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import clsx from 'clsx';
+import clsx from "clsx";
 
 interface ButtonProps {
-  type?: 'button' | 'submit' | 'reset' | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
   fullWidth?: boolean;
   children?: React.ReactNode;
   onClick?: () => void;
@@ -19,14 +19,15 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   secondary,
   danger,
-  disabled
+  disabled,
 }) => {
   return (
     <button
       onClick={onClick}
       type={type}
       disabled={disabled}
-      className={clsx(`
+      className={clsx(
+        `
         flex
         justify-center
         rounded-md
@@ -38,16 +39,19 @@ const Button: React.FC<ButtonProps> = ({
         focus-visible:outline-offset-2
         cursor-pointer
       `,
-      disabled &&"opacity-50 cursor-default",
-      fullWidth && "w-full",
-      secondary ? 'text-gray-900' : 'text-white',
-      danger && "bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600",
-      !secondary && !danger && "bg-sky-500 hhover:bg-sky-600 focus-visible:outline-sky-600"
+        disabled && "opacity-50 cursor-default",
+        fullWidth && "w-full",
+        secondary ? "text-gray-900" : "text-white",
+        danger &&
+          "bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600",
+        !secondary &&
+          !danger &&
+          "bg-sky-500 hhover:bg-sky-600 focus-visible:outline-sky-600",
       )}
     >
       {children}
     </button>
   );
-}
+};
 
 export default Button;

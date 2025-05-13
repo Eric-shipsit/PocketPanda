@@ -41,7 +41,7 @@ export default function PieChartExpense({
 }: PieChartExpenseProps) {
   const categories = useMemo(
     () => Array.from(new Set(expenses.map((e) => e.category))).sort(),
-    [expenses]
+    [expenses],
   );
 
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
@@ -76,7 +76,7 @@ export default function PieChartExpense({
     setActiveCategories((prev) =>
       prev.includes(category)
         ? prev.filter((cat) => cat !== category)
-        : [...prev, category]
+        : [...prev, category],
     );
   };
 

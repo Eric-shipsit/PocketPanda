@@ -6,6 +6,7 @@ import ProfileMenu from "./ProfileMenu";
 import { useContext } from "react";
 import { PageContext } from "@/app/context/PageContext";
 import { User } from "@/app/global";
+import { House } from "lucide-react";
 
 export default function Navbar() {
   const context = useContext(PageContext);
@@ -20,6 +21,9 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="flex items-center">
+            <Link href="/dashboard" className="rounded-full hover:bg-gray-100">
+              <House className="m-2" />
+            </Link>
             <ProfileMenu user={user} />
           </div>
         </div>

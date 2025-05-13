@@ -58,7 +58,7 @@ const DashboardContent = () => {
         <Card>
           <IntroductionSection
             expenses={expenses[now.getMonth() + 1]?.individual.filter(
-              (val) => val.category !== "paycheck"
+              (val) => val.category !== "paycheck",
             )}
             loading={loading}
           />
@@ -114,7 +114,7 @@ const DashboardContent = () => {
                 <div className="overflow-auto grow">
                   <PieChartExpense
                     expenses={expenses[month]?.individual.filter(
-                      (val) => val.category !== "paycheck"
+                      (val) => val.category !== "paycheck",
                     )}
                   />
                 </div>

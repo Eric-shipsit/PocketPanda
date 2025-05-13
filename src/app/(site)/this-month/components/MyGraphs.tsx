@@ -44,7 +44,7 @@ export default function MyGraphs({ data }: MyGraphsProps) {
       {/* Chart wrapper */}
       <div className="flex-1 min-h-0 overflow-hidden">
         {chartTracker === "PIE" && (
-          <PieChartExpense expenses={listOfExpenses}/>
+          <PieChartExpense expenses={listOfExpenses} />
         )}
       </div>
     </div>
