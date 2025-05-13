@@ -1,5 +1,4 @@
 import TextButton from "@/app/components/buttons/TextButton";
-import { Expense } from "@/app/global";
 import { PropsWithChildren } from "react";
 import { ChevronRight } from "lucide-react";
 
