@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ElementType } from "react";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 interface TextButtonProps {
   text?: string;
@@ -17,20 +17,18 @@ export default function TextButton({
   onClick,
   icon: Icon,
   size = 14,
-  color = "blue"
+  color = "blue",
 }: TextButtonProps) {
-
   const content = (
     <span
-      style={{ fontSize: `${size}px`, color: `${color}`}}
+      style={{ fontSize: `${size}px`, color: `${color}` }}
       className={clsx(`
         inline-flex
         items-center
         hover:underline
-      `,
-      )}
+      `)}
     >
-      {Icon && <Icon size={size}/>}
+      {Icon && <Icon size={size} />}
       {text}
     </span>
   );
@@ -40,7 +38,10 @@ export default function TextButton({
   }
 
   return (
-    <button onClick={onClick} className="rounded hover:bg-gray-100 cursor-pointer">
+    <button
+      onClick={onClick}
+      className="rounded hover:bg-gray-100 cursor-pointer"
+    >
       {content}
     </button>
   );

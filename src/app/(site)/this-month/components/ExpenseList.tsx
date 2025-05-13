@@ -19,17 +19,13 @@ export default function ExpenseList({
   loading,
   onEdit,
 }: ExpenseListProps) {
-
   if (loading) return <p>Loading…</p>;
 
   return (
     <ul className="space-y-2">
       {expenses.map((exp) => {
         return (
-          <li
-            key={exp.id}
-            className="relative flex flex-col pb-2 mr-6 ml-2"
-          >
+          <li key={exp.id} className="relative flex flex-col pb-2 mr-6 ml-2">
             <div className="w-full flex items-center justify-between">
               <div className="flex-1">
                 <div className="relative flex flex-col pb-2">
@@ -39,12 +35,22 @@ export default function ExpenseList({
                   <div className="w-full flex">
                     <div className="w-1/2 flex flex-col">
                       <p className="text-sm text-gray-500">{exp.category}</p>
-                      <p className="text-sm text-gray-500">{MONTH_MAP[exp.month]} {exp.day}, {exp.year}</p>
+                      <p className="text-sm text-gray-500">
+                        {MONTH_MAP[exp.month]} {exp.day}, {exp.year}
+                      </p>
                     </div>
 
                     <div className="w-1/2 relative">
-                      <p className={clsx(`absolute bottom-0 right-8 font-semibold`, exp.category == 'paycheck' ? 'text-green-600' : 'text-red-600')}>
-                      {exp.category === "paycheck" ? "+" : "-"}${Math.abs(exp.amount).toFixed(2)}
+                      <p
+                        className={clsx(
+                          `absolute bottom-0 right-8 font-semibold`,
+                          exp.category == "paycheck"
+                            ? "text-green-600"
+                            : "text-red-600",
+                        )}
+                      >
+                        {exp.category === "paycheck" ? "+" : "-"}$
+                        {Math.abs(exp.amount).toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -68,4 +74,3 @@ export default function ExpenseList({
     </ul>
   );
 }
-

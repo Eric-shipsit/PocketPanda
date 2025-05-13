@@ -1,21 +1,20 @@
-'use client';
+"use client";
 
 import { IconType } from "react-icons";
 
 interface AuthSocialButtonProps {
-  icon: IconType,
+  icon: IconType;
   onClick: () => void;
 }
 
 const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   icon: Icon,
-  onClick
+  onClick,
 }) => {
-  icon:
-  return (
+  icon: return (
     <button
-      type = "button"
-      onClick = {onClick}
+      type="button"
+      onClick={onClick}
       className="
         inline-flex
         w-full
@@ -32,10 +31,10 @@ const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
         hover:bg-gray-50
         focus:outline-offset-0
         cursor-pointer"
-      >
-        <Icon />
+    >
+      <Icon />
     </button>
   );
-} 
+};
 
 export default AuthSocialButton;
