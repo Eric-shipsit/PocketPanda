@@ -7,7 +7,7 @@ import MyGraphs from "./components/MyGraphs";
 import { Expense } from "@/app/global";
 import { Edit, Plus } from "lucide-react";
 import TextButton from "@/app/components/buttons/TextButton";
-import SlideInDrawer from "./components/SlideInDrawer";
+import SlideInDrawer from "components/SlideInDrawer";
 import AddOrUpdateExpenseForm from "./components/AddOrUpdateExpenseForm";
 
 export default function MonthContent() {
@@ -18,7 +18,6 @@ export default function MonthContent() {
   // Refresh whenever Expenses are being added/deleted/updated
   const [refreshKey, setRefreshKey] = useState(0);
   const [addOrUpdateExpense, setAddOrUpdateExpense] = useState(false);
-  const [activeExpense, setActiveExpense] = useState("");
 
   const [isExpenseViewOpen, setIsExpenseViewOpen] = useState(false);
   const [focusedExpense, setFocusedExpense] = useState<Expense | undefined>(undefined);
@@ -119,13 +118,12 @@ export default function MonthContent() {
                     setIsExpenseViewOpen(true);
                     setFocusedExpense(expense);
                   }}
-                  activeExpense={activeExpense}
                 />
               </div>
             </div>
           </div>
           <div className="flex-1 p-6 flex flex-col overflow-auto">
-            <MyGraphs data={expenses} setActiveExpense={setActiveExpense} />
+            <MyGraphs data={expenses} />
           </div>
         </div>
       </div>

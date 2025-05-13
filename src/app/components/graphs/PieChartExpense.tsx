@@ -17,7 +17,6 @@ interface ChartSlice {
 interface PieChartExpenseProps {
   expenses: Expense[];
   colors?: string[];
-  setActiveExpense?: (category: string) => void;
   legendRight?: Boolean;
 }
 
@@ -38,7 +37,6 @@ export default function PieChartExpense({
     "#B565A7",
     "#009B77",
   ],
-  setActiveExpense = () => {},
   legendRight = false,
 }: PieChartExpenseProps) {
   const categories = useMemo(
