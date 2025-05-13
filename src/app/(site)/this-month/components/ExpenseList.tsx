@@ -12,20 +12,13 @@ interface ExpenseListProps {
   expenses: Expense[];
   loading: boolean;
   onEdit?: (expense: Expense) => void;
-  activeExpense: string;
 }
 
 export default function ExpenseList({
   expenses,
   loading,
   onEdit,
-  activeExpense,
 }: ExpenseListProps) {
-  const [highlightedExpense, setHighlightedExpense] = useState("");
-
-  useEffect(() => {
-    setHighlightedExpense(activeExpense);
-  }, [activeExpense]);
 
   if (loading) return <p>Loading…</p>;
 

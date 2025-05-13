@@ -8,16 +8,15 @@ import { useState } from "react";
 
 interface MyGraphsProps {
   data: Expense[];
-  setActiveExpense?: Function;
 }
 
 type Variant = "PIE" | "CHART";
-export default function MyGraphs({ data, setActiveExpense }: MyGraphsProps) {
+export default function MyGraphs({ data }: MyGraphsProps) {
   const listOfExpenses = data.filter((item) => item.category != "paycheck");
   const income = data.filter((item) => item.category == "paycheck");
   const [chartTracker, setChartTracker] = useState<Variant>("PIE");
   return (
-    <div className="w-full max-w-3xl h-[500px] rounded-lg shadow p-4 flex flex-col">
+    <div className="w-full h-full rounded-lg shadow p-4 flex flex-col">
       {/* Tabs */}
       <div className="flex space-x-4 mb-4">
         <button
