@@ -1,13 +1,13 @@
-// src/app/(site)/this-month/page.tsx
+// src/app/(site)/year/page.tsx
 
 import React from "react";
 import Page from "components/Page";
-import MonthContent from "./MonthContent";
+import YearContent from "./YearContent";
 
 const MonthPage = () => {
   return (
     <Page>
-      <MonthContent />
+      <YearContent />
     </Page>
   );
 };
