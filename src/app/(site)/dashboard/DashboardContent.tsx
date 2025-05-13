@@ -67,7 +67,7 @@ const DashboardContent = () => {
         <div className="flex flex-col gap-6 grow md:flex-row max-h-full">
           {/* Additional Box 1 */}
           {month !== -1 && (
-            <Card className="min-w-3/5 grow">
+            <Card className="min-w-3/4">
               <div className="flex flex-col h-full">
                 <Link href="/year" className="flex items-center mb-2 mr-auto">
                   <h2 className="text-xl font-semibold text-gray-900">
@@ -106,14 +106,13 @@ const DashboardContent = () => {
 
           {/* Additional Box 2 */}
           {month !== -1 && (
-            <Card className="max-h-full grow">
+            <Card className="grow h-full">
               <div className="flex flex-col h-full max-h-full max-w-full">
                 <h2 className="text-xl font-semibold text-gray-900">
                   {MONTH_MAP[month]}
                 </h2>
                 <div className="overflow-auto grow">
                   <PieChartExpense
-                    // legendRight
                     expenses={expenses[month]?.individual.filter(
                       (val) => val.category !== "paycheck"
                     )}

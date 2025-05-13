@@ -28,8 +28,8 @@ const YearContent = () => {
 
   const now = new Date();
   const searchParams = useSearchParams();
-  const q = searchParams.get("q") || now.getFullYear();
-  const lastMonth = q === now.getFullYear() ? now.getMonth() + 1 : 12;
+  const q = searchParams.get("q") || String(now.getFullYear());
+  const lastMonth = q === String(now.getFullYear()) ? now.getMonth() + 1 : 12;
 
   const loadExpenses = async () => {
     setLoading(true);
