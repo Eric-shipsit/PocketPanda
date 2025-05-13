@@ -4,19 +4,11 @@ import React, { useState, useEffect } from "react";
 import IntroductionSection from "components/IntroductionSection";
 import PieChartExpense from "components/graphs/PieChartExpense";
 import Card from "components/Card";
-import { Expense, MONTH_MAP } from "global";
+import { Expense, MONTH_MAP, FormattedExpense, formatExpenses } from "global";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
-interface MonthlyExpense {
-  month: number;
-  total: number;
-  individual: Expense[];
-}
-
-interface FormattedExpense {
-  [index: number]: MonthlyExpense;
-}
+import { ChartLine } from "lucide-react";
+import Link from "next/link";
 
 const getMostRecentMonth = (curMonth: number, expenses: FormattedExpense) => {
   for (let i = curMonth; i >= 1; i--) {
@@ -42,18 +34,7 @@ const DashboardContent = () => {
       }
       const data: Expense[] = await res.json();
 
-      let formattedExpenses: FormattedExpense = {};
-      for (const item of data) {
-        if (!(item.month in formattedExpenses)) {
-          formattedExpenses[item.month] = {
-            total: 0,
-            individual: [],
-            month: item.month,
-          };
-        }
-        formattedExpenses[item.month].total += item.amount;
-        formattedExpenses[item.month].individual.push(item);
-      }
+      let formattedExpenses: FormattedExpense = formatExpenses(data);
       setExpenses(formattedExpenses);
     } catch (error) {
       console.error("Failed to load expenses:", error);
@@ -85,54 +66,62 @@ const DashboardContent = () => {
 
         <div className="flex flex-col gap-6 grow md:flex-row max-h-full">
           {/* Additional Box 1 */}
-          <Card className="min-w-3/4">
-            <div className="flex flex-col h-full">
-              <h2 className="text-xl font-semibold mb-2 text-gray-900">
-                This Year
-              </h2>
-              <div className="overflow-auto max-h-full">
-                {loading ? (
-                  <Skeleton count={8} className="pb-5" />
-                ) : (
-                  <ul className="space-y-2">
-                    {Object.keys(expenses).map((k) => {
-                      return (
-                        <li
-                          key={k}
-                          className={"flex justify-between border-b pb-2"}
-                        >
-                          <div>
-                            <p className="font-medium">
-                              {MONTH_MAP[Number(k)]}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              ${expenses[Number(k)].total}
-                            </p>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
+          {month !== -1 && (
+            <Card className="min-w-3/5 grow">
+              <div className="flex flex-col h-full">
+                <Link href="/year" className="flex items-center mb-2 mr-auto">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    This Year
+                  </h2>
+                  <ChartLine size={18} className="ml-1 mt-0.5" />
+                </Link>
+                <div className="overflow-auto max-h-full">
+                  {loading ? (
+                    <Skeleton count={8} className="pb-5" />
+                  ) : (
+                    <ul className="space-y-2">
+                      {Object.keys(expenses).map((k) => {
+                        return (
+                          <li
+                            key={k}
+                            className={"flex justify-between border-b pb-2"}
+                          >
+                            <div>
+                              <p className="font-medium">
+                                {MONTH_MAP[Number(k)]}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                ${expenses[Number(k)].total}
+                              </p>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          )}
 
           {/* Additional Box 2 */}
-          <Card className="max-h-full grow">
-            <div className="flex flex-col h-full max-h-full max-w-full">
-              <h2 className="text-xl font-semibold text-gray-900">
-                {MONTH_MAP[month]}
-              </h2>
-              <div className="overflow-auto grow">
-                <PieChartExpense
-                  expenses={expenses[month]?.individual.filter(
-                    (val) => val.category !== "paycheck"
-                  )}
-                />
+          {month !== -1 && (
+            <Card className="max-h-full grow">
+              <div className="flex flex-col h-full max-h-full max-w-full">
+                <h2 className="text-xl font-semibold text-gray-900">
+                  {MONTH_MAP[month]}
+                </h2>
+                <div className="overflow-auto grow">
+                  <PieChartExpense
+                    // legendRight
+                    expenses={expenses[month]?.individual.filter(
+                      (val) => val.category !== "paycheck"
+                    )}
+                  />
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          )}
         </div>
       </div>
     </div>

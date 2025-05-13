@@ -1,4 +1,4 @@
-// src/app/(site)/the-month/page.tsx
+// src/app/(site)/this-month/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -58,7 +58,7 @@ export default function MonthContent() {
 
   return (
     <div className="w-full flex flex-col ">
-      <div className = "w-full flex flex-col">
+      <div className="w-full flex flex-col">
         <h2 className="text-2xl font-semibold text-gray-900 mb-4">
           {monthName} {year}
         </h2>
@@ -66,77 +66,77 @@ export default function MonthContent() {
           <TextButton text={"\u00AB Dashboard"} href="/dashboard" />
         </div>
       </div>
-      
-    <div className="w-full flex flex-col-reverse md:flex-row overflow-auto max-h-full">
-      {/* Left Column (100% width on mobile, 40% width on md+, full viewport height or min 700px) */}
-      <div className="w-full md:w-1/2 p-6 flex flex-col">
-        <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-3 pr-1 flex flex-col h-full">
-          <div className="w-full flex justify-between items-center pr-1">
-            <span className="text-lg">This Month's Expenses</span>
-            <TextButton
-              text=""
-              onClick={() => {
-                setRightScreenStatus("ADD");
-              }}
-              icon={Plus}
-              size={20}
-            />
-          </div>
-          <div className="mt-2 flex-1 overflow-auto">
-            <ExpenseList
-              expenses={expenses}
-              loading={loading}
-              onEdit={(expense) => {
-                setUpdateExpense(expense);
-                setRightScreenStatus("EDIT");
-              }}
-              activeExpense={activeExpense}
-            />
+
+      <div className="w-full flex flex-col-reverse md:flex-row overflow-auto max-h-full">
+        {/* Left Column (100% width on mobile, 40% width on md+, full viewport height or min 700px) */}
+        <div className="w-full md:w-1/2 p-6 flex flex-col">
+          <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-3 pr-1 flex flex-col h-full">
+            <div className="w-full flex justify-between items-center pr-1">
+              <span className="text-lg">This Month's Expenses</span>
+              <TextButton
+                text=""
+                onClick={() => {
+                  setRightScreenStatus("ADD");
+                }}
+                icon={Plus}
+                size={20}
+              />
+            </div>
+            <div className="mt-2 flex-1 overflow-auto">
+              <ExpenseList
+                expenses={expenses}
+                loading={loading}
+                onEdit={(expense) => {
+                  setUpdateExpense(expense);
+                  setRightScreenStatus("EDIT");
+                }}
+                activeExpense={activeExpense}
+              />
+            </div>
           </div>
         </div>
+        <div className="w-full md:w-1/2 p-6 flex flex-col">
+          {rightScreenStatus === "GRAPH" && (
+            <MyGraphs data={expenses} setActiveExpense={setActiveExpense} />
+          )}
+          {rightScreenStatus === "ADD" && (
+            <AddOrUpdateExpenseForm
+              initialData={undefined}
+              onSuccess={(exp) => {
+                setRefreshKey(refreshKey + 1);
+                setRightScreenStatus("GRAPH");
+              }}
+              onCancel={() => {
+                setRightScreenStatus("GRAPH");
+              }}
+              onDelete={() => {
+                setRefreshKey(refreshKey + 1);
+                setRightScreenStatus("GRAPH");
+                setUpdateExpense(undefined);
+              }}
+            />
+          )}
+          {rightScreenStatus === "EDIT" && (
+            <AddOrUpdateExpenseForm
+              initialData={updateExpense}
+              onSuccess={(exp) => {
+                setRefreshKey(refreshKey + 1);
+                setRightScreenStatus("GRAPH");
+                setUpdateExpense(undefined);
+              }}
+              onCancel={() => {
+                setRightScreenStatus("GRAPH");
+                setUpdateExpense(undefined);
+              }}
+              onDelete={() => {
+                setRefreshKey(refreshKey + 1);
+                setRightScreenStatus("GRAPH");
+                setUpdateExpense(undefined);
+              }}
+            />
+          )}
+        </div>
       </div>
-      <div className="w-full md:w-1/2 p-6 flex flex-col">
-        {rightScreenStatus === "GRAPH" && (
-          <MyGraphs data={expenses} setActiveExpense={setActiveExpense} />
-        )}
-        {rightScreenStatus === "ADD" && (
-          <AddOrUpdateExpenseForm
-            initialData={undefined}
-            onSuccess={(exp) => {
-              setRefreshKey(refreshKey + 1);
-              setRightScreenStatus("GRAPH");
-            }}
-            onCancel={() => {
-              setRightScreenStatus("GRAPH");
-            }}
-            onDelete={() => {
-              setRefreshKey(refreshKey + 1);
-              setRightScreenStatus("GRAPH");
-              setUpdateExpense(undefined);
-            }}
-          />
-        )}
-        {rightScreenStatus === "EDIT" && (
-          <AddOrUpdateExpenseForm
-            initialData={updateExpense}
-            onSuccess={(exp) => {
-              setRefreshKey(refreshKey + 1);
-              setRightScreenStatus("GRAPH");
-              setUpdateExpense(undefined);
-            }}
-            onCancel={() => {
-              setRightScreenStatus("GRAPH");
-              setUpdateExpense(undefined);
-            }}
-            onDelete={() => {
-              setRefreshKey(refreshKey + 1);
-              setRightScreenStatus("GRAPH");
-              setUpdateExpense(undefined);
-            }}
-          />
-        )}
-      </div>
-    </div>
     </div>
   );
 }
