@@ -19,6 +19,23 @@ interface MonthMap {
   [index: number]: string;
 }
 
+export interface MonthlyExpense {
+  month: number;
+  total: number;
+  income: number;
+  individual: Expense[];
+}
+
+export interface FormattedExpense {
+  [index: number]: MonthlyExpense;
+}
+
+export interface YearChartData {
+  month: string;
+  spend: number;
+  income: number;
+}
+
 export const MONTH_MAP: MonthMap = {
   1: "January",
   2: "February",
@@ -40,3 +57,24 @@ export interface User {
   email: string;
   image?: string;
 }
+
+export const formatExpenses = (data: Expense[]) => {
+  let formattedExpenses: FormattedExpense = {};
+  for (const item of data) {
+    if (!(item.month in formattedExpenses)) {
+      formattedExpenses[item.month] = {
+        total: 0,
+        individual: [],
+        income: 0,
+        month: item.month,
+      };
+    }
+    if (item.category !== "paycheck") {
+      formattedExpenses[item.month].total += item.amount;
+    } else {
+      formattedExpenses[item.month].income += item.amount;
+    }
+    formattedExpenses[item.month].individual.push(item);
+  }
+  return formattedExpenses;
+};
