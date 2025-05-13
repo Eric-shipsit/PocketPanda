@@ -44,6 +44,11 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
       setValue('description', initialData.description);
       setValue('category', initialData.category);
       setValue('amount', initialData.amount);
+    } else {
+      setValue('name', '');
+      setValue('description', '');
+      setValue('category', '');
+      setValue('amount', 0);
     }
   }, [initialData, setValue]);
   
@@ -78,7 +83,10 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-4 bg-white rounded-lg shadow">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full bg-white rounded-lg shadow">
+      
+    <div className="flex-1 overflow-auto space-y-4">
+
       <h2 className="text-xl font-semibold">{isEdit ? 'Edit Expense' : 'New Expense'}</h2>
 
       <div>
@@ -135,7 +143,7 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
         {errors.amount && <p className="text-sm text-red-600">{errors.amount.message}</p>}
       </div>
 
-      <div className="flex justify-end space-x-2 pt-4">
+      <div className="flex justify-end space-x-2">
         {isEdit && (
           <button
             type="button"
@@ -144,7 +152,7 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
                 triggerDelete(initialData?.id);
               }
             }}
-            className="px-4 py-2 bg-red-600 rounded hover:bg-red-700"
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
           >
             Delete
           </button>
@@ -163,6 +171,8 @@ export default function AddOrUpdateExpenseForm({ initialData, onSuccess, onCance
         >
           {isEdit ? 'Update' : 'Add'}
         </button>
+      </div>
+
       </div>
     </form>
   );
