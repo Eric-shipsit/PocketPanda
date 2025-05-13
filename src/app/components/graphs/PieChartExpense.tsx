@@ -114,7 +114,6 @@ export default function PieChartExpense({
             layout={legendRight ? "vertical" : "horizontal"}
             align={legendRight ? "right" : "center"}
             onClick={(entry) => toggleCategory(String(entry.value))}
-            height={36}
             formatter={(value, entry) => {
               const category = entry.value as string;
               return (

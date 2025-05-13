@@ -67,7 +67,7 @@ const DashboardContent = () => {
         <div className="flex flex-col gap-6 grow md:flex-row max-h-full">
           {/* Additional Box 1 */}
           {month !== -1 && (
-            <Card className="min-w-3/4">
+            <Card className="min-w-1/2">
               <div className="flex flex-col h-full">
                 <Link href="/year" className="flex items-center mb-2 mr-auto">
                   <h2 className="text-xl font-semibold text-gray-900">
