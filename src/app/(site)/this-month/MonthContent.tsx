@@ -104,10 +104,13 @@ export default function MonthContent() {
             >
               <AddOrUpdateExpenseForm
                 initialData={focusedExpense}
+                isOpen={addOrUpdateExpense}
                 onSuccess={(updatedExpense) => {
+                  if (focusedExpense) {
+                    setFocusedExpense(updatedExpense);
+                  }
                   setRefreshKey(refreshKey + 1);
                   setAddOrUpdateExpense(false);
-                  setFocusedExpense(updatedExpense);
                 }}
                 onCancel={() => {
                   setAddOrUpdateExpense(false);
@@ -126,7 +129,10 @@ export default function MonthContent() {
                 text=""
                 icon={Plus}
                 size={20}
-                onClick={() => setAddOrUpdateExpense(true)}
+                onClick={() => {
+                  setFocusedExpense(undefined);
+                  setAddOrUpdateExpense(true);
+                }}
               />
             </div>
             <div className="mt-2 flex-1 overflow-auto">
