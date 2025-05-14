@@ -57,8 +57,28 @@ export async function PATCH(
     }
     updates.amount = body.amount;
   }
-  if (body.date !== undefined) updates.date = new Date(body.date);
-
+  // NEW: pick up month/day/year individually
+  if (body.month !== undefined) {
+    const m = Number(body.month);
+    if (!Number.isInteger(m) || m < 1 || m > 12) {
+      return NextResponse.json({ error: "Invalid month" }, { status: 400 });
+    }
+    updates.month = m;
+  }
+  if (body.day !== undefined) {
+    const d = Number(body.day);
+    if (!Number.isInteger(d) || d < 1 || d > 31) {
+      return NextResponse.json({ error: "Invalid day" }, { status: 400 });
+    }
+    updates.day = d;
+  }
+  if (body.year !== undefined) {
+    const y = Number(body.year);
+    if (!Number.isInteger(y) || y < 2024) {
+      return NextResponse.json({ error: "Invalid year" }, { status: 400 });
+    }
+    updates.year = y;
+  }
   // Apply partial update
   const patched = await prisma.expense.update({
     where: { id },
