@@ -2,10 +2,8 @@
 
 "use client";
 
-import TextButton from "@/app/components/buttons/TextButton";
 import { Expense, MONTH_MAP } from "@/app/global";
 import clsx from "clsx";
-import { ChevronRight } from "lucide-react";
 import React, { useState, useEffect } from "react";
 
 interface ExpenseListProps {
@@ -20,13 +18,17 @@ export default function ExpenseList({
   onEdit,
 }: ExpenseListProps) {
   if (loading) return <p>Loading…</p>;
-
   return (
     <ul className="space-y-2">
       {expenses.map((exp) => {
         return (
           <li key={exp.id} className="relative flex flex-col pb-2 mr-6 ml-2">
-            <div className="w-full flex items-center justify-between">
+            <button
+              onClick={() => {
+                onEdit?.(exp);
+              }}
+              className="w-full text-left cursor-pointer hover:bg-gray-100 p-2 rounded flex items-center justify-between"
+            >
               <div className="flex-1">
                 <div className="relative flex flex-col pb-2">
                   <div className="flex justify-between">
@@ -56,17 +58,7 @@ export default function ExpenseList({
                   </div>
                 </div>
               </div>
-              <div>
-                {/* Right container (icon only), auto width and vertically centered by parent */}
-                <TextButton
-                  text=""
-                  onClick={() => onEdit?.(exp)}
-                  icon={ChevronRight}
-                  size={16}
-                  color="gray"
-                />
-              </div>
-            </div>
+            </button>
             <div className="absolute bottom-0 inset-x-[5%] border-b border-gray-300" />
           </li>
         );
