@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     console.log("POSTING EXPENSE");
     const currentUser = await getCurrentUser();
     const body = await request.json();
-    const { name, amount, description, category, month, year } = body;
+    const { name, amount, description, category, month, year, day } = body;
 
     if (!currentUser) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -23,6 +23,10 @@ export async function POST(request: Request) {
       typeof month === "number" && month >= 1 && month <= 12
         ? month
         : now.getMonth() + 1;
+    const expenseDay =
+      typeof day === "number" && day >= 1 && day <= 31
+        ? day
+        : now.getDate();
     const expenseYear = typeof year === "number" ? year : now.getFullYear();
 
     const newExpense = await prisma.expense.create({
@@ -32,6 +36,7 @@ export async function POST(request: Request) {
         description,
         category,
         month: expenseMonth,
+        day: expenseDay,
         year: expenseYear,
         user: { connect: { id: currentUser.id } },
       },

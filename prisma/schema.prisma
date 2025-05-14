@@ -57,7 +57,7 @@ model Expense {
 
   month       Int
   year        Int
-  day         Int?
+  day         Int
 
   @@index([userId], name: "idx_expense_user")
   @@index([year, month], name: "idx_expense_year_month")
