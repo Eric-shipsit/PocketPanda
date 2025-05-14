@@ -25,7 +25,7 @@ interface Props {
   isOpen: boolean;
 }
 const currentYear = new Date().getFullYear();
-const yearOptions = Array.from({ length: 4 }, (_, i) => currentYear -  3 + i);
+const yearOptions = Array.from({ length: 4 }, (_, i) => currentYear - 3 + i);
 const dayOptions = Array.from({ length: 31 }, (_, i) => i + 1);
 
 const now = new Date();
@@ -49,7 +49,7 @@ export default function AddOrUpdateExpenseForm({
     amount: 0,
     month: todayMonth,
     day: todayDay,
-    year: todayYear
+    year: todayYear,
   };
   const {
     register,
@@ -58,7 +58,7 @@ export default function AddOrUpdateExpenseForm({
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<ExpenseFormData>({
-    defaultValues: initialData ?? defaults
+    defaultValues: initialData ?? defaults,
   });
 
   useEffect(() => {
@@ -78,7 +78,6 @@ export default function AddOrUpdateExpenseForm({
       }
     }
   }, [isOpen, initialData, reset]);
-  
 
   const onSubmit: SubmitHandler<ExpenseFormData> = async (data) => {
     try {
@@ -112,7 +111,8 @@ export default function AddOrUpdateExpenseForm({
     }
   };
 
-  const inputClass = "w-full py-1 px-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm";
+  const inputClass =
+    "w-full py-1 px-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm";
 
   return (
     <div className="p-4 bg-white rounded-md">
@@ -120,18 +120,34 @@ export default function AddOrUpdateExpenseForm({
         {isEdit ? "Edit Expense" : "New Expense"}
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-sm">
-
         {/* Name & Amount side by side */}
         <div className="grid grid-cols-2 gap-2">
           <div>
             <label className="block">Name</label>
-            <input type="text" {...register("name", { required: "Name required" })} className={inputClass} />
-            {errors.name && <p className="text-red-600 text-xs">{errors.name.message}</p>}
+            <input
+              type="text"
+              {...register("name", { required: "Name required" })}
+              className={inputClass}
+            />
+            {errors.name && (
+              <p className="text-red-600 text-xs">{errors.name.message}</p>
+            )}
           </div>
           <div>
             <label className="block">Amount</label>
-            <input type="number" step="0.01" {...register("amount", { required: "Amount required", valueAsNumber: true, min: { value: 0.01, message: "Min 0.01" } })} className={inputClass} />
-            {errors.amount && <p className="text-red-600 text-xs">{errors.amount.message}</p>}
+            <input
+              type="number"
+              step="0.01"
+              {...register("amount", {
+                required: "Amount required",
+                valueAsNumber: true,
+                min: { value: 0.01, message: "Min 0.01" },
+              })}
+              className={inputClass}
+            />
+            {errors.amount && (
+              <p className="text-red-600 text-xs">{errors.amount.message}</p>
+            )}
           </div>
         </div>
 
@@ -139,22 +155,41 @@ export default function AddOrUpdateExpenseForm({
         <div className="grid grid-cols-3 gap-2">
           <div>
             <label className="block">Month</label>
-            <select {...register("month", { valueAsNumber: true })} className={inputClass}>
+            <select
+              {...register("month", { valueAsNumber: true })}
+              className={inputClass}
+            >
               {Object.entries(MONTH_MAP).map(([num, name]) => (
-                <option key={num} value={Number(num)}>{name}</option>
+                <option key={num} value={Number(num)}>
+                  {name}
+                </option>
               ))}
             </select>
           </div>
           <div>
             <label className="block">Day</label>
-            <select {...register("day", { valueAsNumber: true })} className={inputClass}>
-              {dayOptions.map(d => <option key={d} value={d}>{d}</option>)}
+            <select
+              {...register("day", { valueAsNumber: true })}
+              className={inputClass}
+            >
+              {dayOptions.map((d) => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
             </select>
           </div>
           <div>
             <label className="block">Year</label>
-            <select {...register("year", { valueAsNumber: true })} className={inputClass}>
-              {yearOptions.map(y => <option key={y} value={y}>{y}</option>)}
+            <select
+              {...register("year", { valueAsNumber: true })}
+              className={inputClass}
+            >
+              {yearOptions.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -163,36 +198,62 @@ export default function AddOrUpdateExpenseForm({
         <div className="grid grid-cols-2 gap-2">
           <div>
             <label className="block">Description</label>
-            <textarea rows={2} {...register("description")} className={`${inputClass} resize-none`}></textarea>
+            <textarea
+              rows={2}
+              {...register("description")}
+              className={`${inputClass} resize-none`}
+            ></textarea>
           </div>
           <div>
             <label className="block">Category</label>
-            <select {...register("category", { required: "Category required" })} className={inputClass}>
+            <select
+              {...register("category", { required: "Category required" })}
+              className={inputClass}
+            >
               <option value="">Select</option>
-              <option>Paycheck</option><option>Food</option><option>Rent</option><option>Utilities</option>
-              <option>Necessities</option><option>Entertainment</option><option>School</option><option>Shopping</option>
+              <option>Paycheck</option>
+              <option>Food</option>
+              <option>Rent</option>
+              <option>Utilities</option>
+              <option>Necessities</option>
+              <option>Entertainment</option>
+              <option>School</option>
+              <option>Shopping</option>
               <option>Gift</option>
             </select>
-            {errors.category && <p className="text-red-600 text-xs">{errors.category.message}</p>}
+            {errors.category && (
+              <p className="text-red-600 text-xs">{errors.category.message}</p>
+            )}
           </div>
         </div>
 
         {/* Actions */}
         <div className="flex justify-end space-x-2 pt-2 border-t border-gray-200">
           {isEdit && (
-            <button type="button"
+            <button
+              type="button"
               onClick={() => {
                 if (initialData?.id) {
                   triggerDelete(initialData.id);
                 }
-              }} 
+              }}
               className="text-red-500 hover:text-red-700 text-xs"
             >
               Delete
             </button>
           )}
-          <button type="button" onClick={onCancel} className="px-3 py-1 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 text-xs">Cancel</button>
-          <button type="submit" disabled={isSubmitting} className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50 text-xs">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-3 py-1 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 text-xs"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50 text-xs"
+          >
             {isEdit ? "Update" : "Add"}
           </button>
         </div>

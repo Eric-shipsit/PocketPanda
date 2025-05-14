@@ -24,9 +24,7 @@ export async function POST(request: Request) {
         ? month
         : now.getMonth() + 1;
     const expenseDay =
-      typeof day === "number" && day >= 1 && day <= 31
-        ? day
-        : now.getDate();
+      typeof day === "number" && day >= 1 && day <= 31 ? day : now.getDate();
     const expenseYear = typeof year === "number" ? year : now.getFullYear();
 
     const newExpense = await prisma.expense.create({
