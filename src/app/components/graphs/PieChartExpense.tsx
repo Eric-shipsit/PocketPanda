@@ -7,6 +7,7 @@ import {
   Cell,
   Tooltip,
   Legend,
+  Label,
 } from "recharts";
 
 interface ChartSlice {
@@ -41,7 +42,7 @@ export default function PieChartExpense({
 }: PieChartExpenseProps) {
   const categories = useMemo(
     () => Array.from(new Set(expenses.map((e) => e.category))).sort(),
-    [expenses],
+    [expenses]
   );
 
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
@@ -69,6 +70,11 @@ export default function PieChartExpense({
     }));
   }, [data, activeCategories]);
 
+  const activeTotal = useMemo<number>(
+    () => displayData.reduce((sum, { value }) => sum + value, 0),
+    [displayData]
+  );
+
   const toggleCategory = (category: string) => {
     if (activeCategories.length === 1 && category === activeCategories.at(0)) {
       setActiveCategories(categories);
@@ -76,7 +82,7 @@ export default function PieChartExpense({
     setActiveCategories((prev) =>
       prev.includes(category)
         ? prev.filter((cat) => cat !== category)
-        : [...prev, category],
+        : [...prev, category]
     );
   };
 
@@ -107,6 +113,15 @@ export default function PieChartExpense({
                 fill={colors[index % colors.length]}
               />
             ))}
+              <Label
+                position="center"
+                value={activeTotal.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
+                className="fill-current text-white text-base sm:text-lg md:text-xl lg:text-2xl font-semibold"
+
+              />
           </Pie>
           <Tooltip />
           <Legend
