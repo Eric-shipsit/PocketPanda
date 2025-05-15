@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import IntroductionSection from "components/IntroductionSection";
-import PieChartExpense from "components/graphs/PieChartExpense";
 import Card from "components/Card";
 import { Expense, MONTH_MAP, FormattedExpense, formatExpenses } from "global";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { ChartLine } from "lucide-react";
 import Link from "next/link";
+import PieChartFlex from "@/app/components/graphs/PieChartFlex";
 
 const getMostRecentMonth = (curMonth: number, expenses: FormattedExpense) => {
   for (let i = curMonth; i >= 1; i--) {
@@ -112,8 +112,8 @@ const DashboardContent = () => {
                   {MONTH_MAP[month]}
                 </h2>
                 <div className="overflow-auto grow">
-                  <PieChartExpense
-                    expenses={expenses[month]?.individual.filter(
+                  <PieChartFlex
+                    data={expenses[month]?.individual.filter(
                       (val) => val.category !== "paycheck",
                     )}
                   />
