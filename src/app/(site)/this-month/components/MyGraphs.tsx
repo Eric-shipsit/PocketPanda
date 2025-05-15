@@ -22,7 +22,7 @@ export default function MyGraphs({ data }: MyGraphsProps) {
   const [legendOn, setLegendOn] = useState(true);
   const listOfExpenses = useMemo(
     () => data.filter((item) => item.category !== "Paycheck"),
-    [data]
+    [data],
   );
   const [focusedCategory, setFocusedCategory] = useState<string | null>(null);
   const filteredExpenses = useMemo(
@@ -30,7 +30,7 @@ export default function MyGraphs({ data }: MyGraphsProps) {
       focusedCategory
         ? listOfExpenses.filter((item) => item.category === focusedCategory)
         : listOfExpenses,
-    [listOfExpenses, focusedCategory]
+    [listOfExpenses, focusedCategory],
   );
   const [isMainGraph, setIsMainGraph] = useState(true);
   return (
@@ -62,34 +62,40 @@ export default function MyGraphs({ data }: MyGraphsProps) {
       </div>
       <div className="flex flex-col items-start space-y-4 mb-4">
         {focusedCategory ? (
-          <h2 className="
+          <h2
+            className="
             text-3xl 
             font-extrabold  
             text-gray-900  
             tracking-tight  
-            mb-6">This month's {focusedCategory}
+            mb-6"
+          >
+            This month's {focusedCategory}
           </h2>
         ) : (
-          <h2 className="
+          <h2
+            className="
             text-3xl 
             font-extrabold  
             text-gray-900  
             tracking-tight  
-            mb-6">This month's Expenses
+            mb-6"
+          >
+            This month's Expenses
           </h2>
         )}
-        {!isMainGraph &&
+        {!isMainGraph && (
           <TextButton
             text="Back to all"
             icon={ChevronLeft}
-            onClick={()=>{
+            onClick={() => {
               setFocusedCategory(null);
               setGroupByCategory(true);
               setToggleLegend(true);
               setIsMainGraph(true);
             }}
           />
-        }
+        )}
       </div>
       {/* Chart wrapper */}
       <div className="flex-1 min-h-0 overflow-hidden">
@@ -100,7 +106,7 @@ export default function MyGraphs({ data }: MyGraphsProps) {
             legendOn={legendOn}
             chartToggleable={toggleChart}
             legendToggleable={toggleLegend}
-            onFocus={(category)=>{
+            onFocus={(category) => {
               setGroupByCategory(false);
               setToggleLegend(false);
               setFocusedCategory(category);

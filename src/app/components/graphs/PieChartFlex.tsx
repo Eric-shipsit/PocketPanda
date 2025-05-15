@@ -23,7 +23,7 @@ interface graphData {
 }
 
 interface PieChartFlexProps {
-  data: graphData[],
+  data: graphData[];
   colors?: string[];
   chartToggleable?: Boolean;
   legendToggleable?: Boolean;
@@ -55,12 +55,11 @@ export default function PieChartFlex({
   onFocus,
   groupByCategory = false,
 }: PieChartFlexProps) {
-
   const categories = useMemo<string[]>(() => {
     const cats = data
       .map((e) => e.category)
       .filter((c): c is string => c !== undefined);
-  
+
     return Array.from(new Set(cats)).sort();
   }, [data]);
 
@@ -79,11 +78,14 @@ export default function PieChartFlex({
 
   const chartData = useMemo<ChartSlice[]>(() => {
     if (groupByCategory) {
-      const map = data.reduce<Record<string, number>>((acc, { category, amount }) => {
-        const key = category ?? "Uncategorized";
-        acc[key] = (acc[key] || 0) + amount;
-        return acc;
-      }, {});
+      const map = data.reduce<Record<string, number>>(
+        (acc, { category, amount }) => {
+          const key = category ?? "Uncategorized";
+          acc[key] = (acc[key] || 0) + amount;
+          return acc;
+        },
+        {},
+      );
       return Object.entries(map).map(([name, value]) => ({ name, value }));
     }
     return data.map(({ name, amount }) => ({ name, value: amount }));
@@ -102,20 +104,21 @@ export default function PieChartFlex({
 
   const activeTotal = useMemo<number>(
     () => displayData.reduce((sum, { value }) => sum + value, 0),
-    [displayData]
+    [displayData],
   );
 
   const toggleCategory = (category: string) => {
     if (activeCategories.length === 1 && category === activeCategories.at(0)) {
       setActiveCategories(categories);
+    } else {
+      setActiveCategories((prev) =>
+        prev.includes(category)
+          ? prev.filter((cat) => cat !== category)
+          : [...prev, category],
+      );
     }
-    setActiveCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((cat) => cat !== category)
-        : [...prev, category]
-    );
   };
-  
+
   return (
     <div className="h-full">
       <ResponsiveContainer
@@ -132,7 +135,7 @@ export default function PieChartFlex({
             cy="50%"
             outerRadius="60%"
             onClick={(entry) => {
-              if (chartToggleable){
+              if (chartToggleable) {
                 if (activeCategories.length == 1) {
                   onFocus?.(activeCategories[0]);
                 } else {
@@ -156,34 +159,34 @@ export default function PieChartFlex({
                 currency: "USD",
               })}
               className="fill-current text-white text-base sm:text-lg md:text-xl lg:text-2xl font-semibold"
-
             />
           </Pie>
           <Tooltip />
-          {legendOn &&
-          
-          <Legend
-            onClick={(entry) => {
-              if (legendToggleable) {
-                toggleCategory(String(entry.value));
-              }
-            }}
-            formatter={(value, entry) => {
-              const category = entry.value as string;
-              return (
-                <span
-                  style={{
-                    color: activeCategories.includes(category) || !legendToggleable
-                      ? "#000"
-                      : "#ccc",
-                    cursor: "pointer",
-                  }}
-                >
-                  {value}
-                </span>
-              );
-            }}
-          />}
+          {legendOn && (
+            <Legend
+              onClick={(entry) => {
+                if (legendToggleable) {
+                  toggleCategory(String(entry.value));
+                }
+              }}
+              formatter={(value, entry) => {
+                const category = entry.value as string;
+                return (
+                  <span
+                    style={{
+                      color:
+                        activeCategories.includes(category) || !legendToggleable
+                          ? "#000"
+                          : "#ccc",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {value}
+                  </span>
+                );
+              }}
+            />
+          )}
         </PieChart>
       </ResponsiveContainer>
     </div>
