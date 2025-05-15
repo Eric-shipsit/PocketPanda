@@ -63,7 +63,7 @@ export default function MonthContent() {
         </div>
       </div>
       <div className="flex-1 flex flex-col-reverse lg:flex-row items-stretch min-h-0">
-        <div className="max-h-screen flex-1 p-6 flex flex-col overflow-auto">
+        <div className="flex-1 p-6 flex flex-col overflow-auto">
           <div className="relative overflow-hidden bg-white rounded-lg border border-gray-200 shadow-sm p-3 pr-1 flex flex-col h-full ">
             <SlideInDrawer
               direction="right"

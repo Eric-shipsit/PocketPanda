@@ -51,6 +51,30 @@ export const MONTH_MAP: MonthMap = {
   12: "December",
 };
 
+export const CATS = [
+  "Food",
+  "Paycheck",
+  "Rent",
+  "Utilities",
+  "Necessities",
+  "Entertainment",
+  "School",
+  "Shopping",
+  "Gift",
+];
+
+export const CATEGORY_COLORS: Record<(typeof CATS)[number], string> = {
+  Food: "#FFA500", // Orange
+  Paycheck: "#008000", // Green
+  Rent: "#FF0000", // Red
+  Utilities: "#FFC0CB", // Pink
+  Necessities: "#800080", // Purple
+  Entertainment: "#D2B48C", // Tan
+  School: "#0000FF", // Blue
+  Shopping: "#A52A2A", // Brown
+  Gift: "#008080", // Teal
+};
+
 export interface User {
   id: string;
   name: string;
