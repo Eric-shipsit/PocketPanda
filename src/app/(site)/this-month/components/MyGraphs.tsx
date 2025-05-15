@@ -4,6 +4,7 @@
 
 import TextButton from "@/app/components/buttons/TextButton";
 import PieChartFlex from "@/app/components/graphs/PieChartFlex";
+import StackedBarGraph from "@/app/components/graphs/StackedBarGraph";
 import { Expense } from "@/app/global";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -12,7 +13,12 @@ interface MyGraphsProps {
   data: Expense[];
 }
 
-type Variant = "PIE" | "CHART";
+interface BarGraphData {
+  category: string;
+  value: Record<string, number>;
+}
+
+type Variant = "PIE" | "BAR";
 export default function MyGraphs({ data }: MyGraphsProps) {
   const income = data.filter((item) => item.category === "Paycheck");
   const [chartTracker, setChartTracker] = useState<Variant>("PIE");
@@ -33,6 +39,23 @@ export default function MyGraphs({ data }: MyGraphsProps) {
     [listOfExpenses, focusedCategory],
   );
   const [isMainGraph, setIsMainGraph] = useState(true);
+  const barGraphData = useMemo<BarGraphData[]>(() => {
+    let incomeTotal = 0;
+    const expenseMap: Record<string, number> = {};
+
+    data.forEach(({ category, amount }) => {
+      if (category === "Paycheck") {
+        incomeTotal += amount;
+      } else {
+        expenseMap[category] = (expenseMap[category] || 0) + amount;
+      }
+    });
+    return [
+      { category: "Earning", value: { Paycheck: incomeTotal } },
+      { category: "Expense", value: expenseMap },
+    ];
+  }, [data]);
+
   return (
     <div className="w-full h-full rounded-lg shadow p-4 flex flex-col">
       {/* Tabs */}
@@ -51,11 +74,11 @@ export default function MyGraphs({ data }: MyGraphsProps) {
         </button>
         <button
           className={`px-4 py-2 rounded cursor-pointer ${
-            chartTracker === "CHART"
+            chartTracker === "BAR"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-black"
           }`}
-          onClick={() => setChartTracker("CHART")}
+          onClick={() => setChartTracker("BAR")}
         >
           Line Chart
         </button>
@@ -113,6 +136,9 @@ export default function MyGraphs({ data }: MyGraphsProps) {
               setIsMainGraph(false);
             }}
           />
+        )}
+        {chartTracker === "BAR" && (
+          <StackedBarGraph data={barGraphData} />
         )}
       </div>
     </div>

@@ -120,10 +120,10 @@ export default function PieChartFlex({
   };
 
   return (
-    <div className="h-full">
+    <div className="h-full w-full">
       <ResponsiveContainer
         width="100%"
-        aspect={1}
+        height="100%"
         className={"flex items-center justify-center"}
       >
         <PieChart>
@@ -141,7 +141,6 @@ export default function PieChartFlex({
                 } else {
                   const category = entry.name as string;
                   setActiveCategories([category]);
-                  // setActiveCategories(prev => prev.filter(cat => cat !== category));
                 }
               }
             }}
