@@ -21,6 +21,7 @@ export default function Home() {
   return (
     <>
       <Head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <title>Panda Pocket</title>
         <meta
           name="description"

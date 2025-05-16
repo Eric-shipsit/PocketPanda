@@ -3,10 +3,16 @@
 import React, { useState, useEffect } from "react";
 import IntroductionSection from "components/IntroductionSection";
 import Card from "components/Card";
-import { Expense, MONTH_MAP, FormattedExpense, formatExpenses } from "global";
+import {
+  Expense,
+  MONTH_MAP,
+  FormattedExpense,
+  formatExpenses,
+  HOVER_COLOR,
+} from "global";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { ChartLine } from "lucide-react";
+import { ChartLine, ChevronRight, PieChart } from "lucide-react";
 import Link from "next/link";
 import PieChartFlex from "@/app/components/graphs/PieChartFlex";
 
@@ -69,12 +75,17 @@ const DashboardContent = () => {
           {month !== -1 && (
             <Card className="min-w-1/2">
               <div className="flex flex-col h-full">
-                <Link href="/year" className="flex items-center mb-2 mr-auto">
+                <div className="flex flex-row items-center mb-2">
                   <h2 className="text-xl font-semibold text-gray-900">
                     This Year
                   </h2>
                   <ChartLine size={18} className="ml-1 mt-0.5" />
-                </Link>
+                  <Link href="/year" className="ml-auto">
+                    <ChevronRight
+                      className={"rounded-full hover:" + HOVER_COLOR}
+                    />
+                  </Link>
+                </div>
                 <div className="overflow-auto max-h-full">
                   {loading ? (
                     <Skeleton count={8} className="pb-5" />
@@ -108,9 +119,17 @@ const DashboardContent = () => {
           {month !== -1 && (
             <Card className="grow h-full">
               <div className="flex flex-col h-full max-h-full max-w-full">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  {MONTH_MAP[month]}
-                </h2>
+                <div className="flex flex-row items-center">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    {MONTH_MAP[month]}
+                  </h2>
+                  <PieChart size={18} className="ml-1 mt-0.5" />
+                  <Link href="/this-month" className="ml-auto">
+                    <ChevronRight
+                      className={"rounded-full hover:" + HOVER_COLOR}
+                    />
+                  </Link>
+                </div>
                 <div className="overflow-auto grow">
                   <PieChartFlex
                     groupByCategory={true}
