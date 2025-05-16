@@ -105,3 +105,5 @@ export const formatExpenses = (data: Expense[]) => {
   }
   return formattedExpenses;
 };
+
+export const HOVER_COLOR = "bg-gray-100";

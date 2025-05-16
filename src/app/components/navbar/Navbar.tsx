@@ -6,7 +6,7 @@ import ProfileMenu from "./ProfileMenu";
 import { useContext } from "react";
 import { PageContext } from "@/app/context/PageContext";
 import { User } from "@/app/global";
-import { House } from "lucide-react";
+import Image from "next/image";
 
 export default function Navbar() {
   const context = useContext(PageContext);
@@ -15,15 +15,17 @@ export default function Navbar() {
     <nav className="bg- shadow">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
+          <Link href="/dashboard" className="flex items-center">
+            <Image
+              src="/static/PocketPanda.png"
+              width={32}
+              height={32}
+              alt="Panda Pocket"
+              className="mr-1.5"
+            />
+            <h1 className="text-xl font-semibold">Panda Pocket</h1>
+          </Link>
           <div className="flex items-center">
-            <Link href="/dashboard">
-              <h1 className="text-xl font-semibold">Panda Pocket</h1>
-            </Link>
-          </div>
-          <div className="flex items-center">
-            <Link href="/dashboard" className="rounded-full hover:bg-gray-100">
-              <House className="m-2" />
-            </Link>
             <ProfileMenu user={user} />
           </div>
         </div>

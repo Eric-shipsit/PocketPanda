@@ -80,7 +80,11 @@ const IntroductionSection = ({
         )}
       </div>
 
-      {!loading && <TextButton text="Go to this month..." href="/this-month" />}
+      <div className="float-right">
+        {!loading && (
+          <TextButton text="Go to this month..." href="/this-month" />
+        )}
+      </div>
     </div>
   );
 };
