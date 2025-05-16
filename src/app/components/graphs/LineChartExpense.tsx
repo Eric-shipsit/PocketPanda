@@ -13,7 +13,7 @@ import {
 
 const LineChartExpense = ({ data }: { data: YearChartData[] }) => {
   return (
-    <ResponsiveContainer width="100%" aspect={1}>
+    <ResponsiveContainer width="100%" minHeight={500}>
       <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="month" />
