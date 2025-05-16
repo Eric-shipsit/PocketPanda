@@ -96,7 +96,7 @@ export const formatExpenses = (data: Expense[]) => {
         month: item.month,
       };
     }
-    if (item.category !== "aycheck") {
+    if (item.category !== "Paycheck") {
       formattedExpenses[item.month].total += item.amount;
     } else {
       formattedExpenses[item.month].income += item.amount;
