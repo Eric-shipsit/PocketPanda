@@ -35,6 +35,9 @@ export interface YearChartData {
   spend: number;
   income: number;
 }
+export interface YearDat {
+  year: string;
+}
 
 export const MONTH_MAP: MonthMap = {
   1: "January",
@@ -93,7 +96,7 @@ export const formatExpenses = (data: Expense[]) => {
         month: item.month,
       };
     }
-    if (item.category !== "paycheck") {
+    if (item.category !== "Paycheck") {
       formattedExpenses[item.month].total += item.amount;
     } else {
       formattedExpenses[item.month].income += item.amount;

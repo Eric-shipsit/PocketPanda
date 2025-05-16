@@ -39,9 +39,7 @@ const CustomTooltip: React.FC<any> = ({ active, payload, label }) => {
   );
 };
 
-export default function StackedBarGraph({
-  data = [],
-}: StackedBarGraphProps) {
+export default function StackedBarGraph({ data = [] }: StackedBarGraphProps) {
   const { chartData, subCategories } = useMemo(() => {
     const subs = new Set<string>();
     const points = data.map(({ category, value }) => {

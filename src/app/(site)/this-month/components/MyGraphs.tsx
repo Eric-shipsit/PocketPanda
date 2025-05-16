@@ -137,9 +137,7 @@ export default function MyGraphs({ data }: MyGraphsProps) {
             }}
           />
         )}
-        {chartTracker === "BAR" && (
-          <StackedBarGraph data={barGraphData} />
-        )}
+        {chartTracker === "BAR" && <StackedBarGraph data={barGraphData} />}
       </div>
     </div>
   );
