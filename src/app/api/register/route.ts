@@ -12,12 +12,14 @@ export async function POST(request: Request) {
       return new NextResponse("Missing info", { status: 400 });
     }
     const hashedPassword = await bcrypt.hash(password, 12);
+    const role = "user";
 
     const user = await prisma.user.create({
       data: {
         email,
         name,
         hashedPassword,
+        role,
       },
     });
     return NextResponse.json(user);
