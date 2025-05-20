@@ -4,11 +4,18 @@
 import { useEffect, useState } from "react";
 import ExpenseList from "./components/ExpenseList";
 import MyGraphs from "./components/MyGraphs";
-import { Expense } from "@/app/global";
+import { Expense, FilterOpt } from "@/app/global";
 import { Edit, Plus } from "lucide-react";
 import TextButton from "@/app/components/buttons/TextButton";
 import SlideInDrawer from "components/SlideInDrawer";
 import AddOrUpdateExpenseForm from "./components/AddOrUpdateExpenseForm";
+import ExpenseFilter from "components/ExpenseFilter";
+import Fuse from "fuse.js";
+
+const FUSE_OPTS = {
+  keys: ["name", "amount", "day", "description"],
+  threshold: 0.0,
+};
 
 export default function MonthContent() {
   // Expenses to be shown in ExpenseList and ExpenseGraph
@@ -23,6 +30,29 @@ export default function MonthContent() {
   const [focusedExpense, setFocusedExpense] = useState<Expense | undefined>(
     undefined,
   );
+  const [filterData, setFilterData] = useState<FilterOpt>({
+    text: "",
+    select: "Any",
+  });
+  const [filteredExpenses, setFilteredExpenses] = useState<Expense[]>([]);
+
+  useEffect(() => {
+    const { select, text } = filterData;
+    let newExpenses = expenses;
+    newExpenses = newExpenses.filter(
+      (exp) => exp.category === select || select === "Any",
+    );
+
+    const fuse = new Fuse(newExpenses, FUSE_OPTS);
+    if (text) {
+      let temp = [];
+      for (let item of fuse.search(text)) {
+        temp.push(item.item);
+      }
+      newExpenses = temp;
+    }
+    setFilteredExpenses(newExpenses);
+  }, [filterData, expenses]);
 
   const loadExpenses = async () => {
     setLoading(true);
@@ -123,7 +153,7 @@ export default function MonthContent() {
                 }}
               />
             </SlideInDrawer>
-            <div className="w-full flex justify-between items-center pr-1">
+            <div className="w-full flex justify-between items-center pr-1 mb-1">
               <span className="text-lg">This Month's Expenses</span>
               <TextButton
                 text=""
@@ -135,9 +165,10 @@ export default function MonthContent() {
                 }}
               />
             </div>
+            <ExpenseFilter data={filterData} cb={setFilterData} />
             <div className="mt-2 flex-1 overflow-auto">
               <ExpenseList
-                expenses={expenses}
+                expenses={filteredExpenses}
                 loading={loading}
                 onEdit={(expense) => {
                   setIsExpenseViewOpen(true);

@@ -39,6 +39,11 @@ export interface YearDat {
   year: string;
 }
 
+export interface FilterOpt {
+  text: string;
+  select: string;
+}
+
 export const MONTH_MAP: MonthMap = {
   1: "January",
   2: "February",
