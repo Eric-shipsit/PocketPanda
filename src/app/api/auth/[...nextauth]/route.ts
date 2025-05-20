@@ -18,10 +18,30 @@ export const authOptions: AuthOptions = {
         params: { scope: "read:user user:email" },
       },
       allowDangerousEmailAccountLinking: true,
+      profile(profile) {
+        const { id, name, email, avatar_url } = profile;
+        return {
+          id: String(id),
+          name: String(name),
+          email: String(email),
+          image: String(avatar_url),
+          role: "user",
+        };
+      },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      profile(profile) {
+        const { sub, name, email, picture } = profile;
+        return {
+          id: String(sub),
+          name: String(name),
+          email: String(email),
+          image: String(picture),
+          role: "user",
+        };
+      },
     }),
     CredentialsProvider({
       name: "credentials",
@@ -48,7 +68,7 @@ export const authOptions: AuthOptions = {
         if (!isCorrectPassword) {
           throw new Error("Invalid credentials");
         }
-        return user;
+        return user as any;
       },
     }),
   ],
@@ -57,6 +77,15 @@ export const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) token.role = user.role;
+      return token;
+    },
+  },
+  pages: {
+    signIn: "/",
+  },
 };
 
 const handler = NextAuth(authOptions);

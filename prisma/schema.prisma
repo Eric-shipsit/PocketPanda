@@ -20,6 +20,7 @@ model User {
   emailVerified  DateTime?
   hashedPassword String?
   image          String?
+  role           String?
 
   expenses    Expense[]
   expensesIds String[]  @db.ObjectId
