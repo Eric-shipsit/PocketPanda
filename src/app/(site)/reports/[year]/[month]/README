@@ -1,0 +1,7 @@
+// File layout:
+//
+// app/reports/[id]/
+// ├── page.tsx
+// ├── DesktopView.tsx
+// └── PDFView.client.tsx
+

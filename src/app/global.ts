@@ -107,3 +107,14 @@ export const formatExpenses = (data: Expense[]) => {
 };
 
 export const HOVER_COLOR = "bg-gray-100";
+
+export interface MonthReportData {
+  expenses: Expense[];
+  month: number;
+  year: number;
+  gains: Expense[];
+  losses: Expense[];
+  totalGained: number;
+  totalLost: number;
+  user?: User;
+}

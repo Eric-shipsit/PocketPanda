@@ -30,6 +30,7 @@ interface PieChartFlexProps {
   legendOn?: Boolean;
   onFocus?: (category: string) => void;
   groupByCategory?: Boolean;
+  labelOn?: Boolean;
 }
 
 export default function PieChartFlex({
@@ -54,6 +55,7 @@ export default function PieChartFlex({
   legendOn = true,
   onFocus,
   groupByCategory = false,
+  labelOn = true,
 }: PieChartFlexProps) {
   const categories = useMemo<string[]>(() => {
     const cats = data
@@ -151,6 +153,8 @@ export default function PieChartFlex({
                 fill={colors[index % colors.length]}
               />
             ))}
+
+          {labelOn && (
             <Label
               position="center"
               value={activeTotal.toLocaleString("en-US", {
@@ -159,6 +163,7 @@ export default function PieChartFlex({
               })}
               className="fill-current text-white text-base sm:text-lg md:text-xl lg:text-2xl font-semibold"
             />
+          )}
           </Pie>
           <Tooltip />
           {legendOn && (
