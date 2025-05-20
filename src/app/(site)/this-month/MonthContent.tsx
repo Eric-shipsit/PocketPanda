@@ -14,7 +14,6 @@ import Fuse from "fuse.js";
 
 const FUSE_OPTS = {
   keys: ["name", "amount", "day", "description"],
-  threshold: 0.0,
 };
 
 export default function MonthContent() {
