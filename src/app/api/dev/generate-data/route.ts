@@ -48,10 +48,9 @@ const genData = async (uid: string | undefined = undefined) => {
   return genned;
 };
 
-//TODO: add some sort of permissions checking so normal users can not access this endpoint
 export async function POST(request: NextRequest) {
   const currentUser = await getCurrentUser();
-  if (!currentUser) {
+  if (!currentUser || currentUser?.role !== "admin") {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 

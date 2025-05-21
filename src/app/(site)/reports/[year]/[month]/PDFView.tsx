@@ -1,97 +1,88 @@
 // src/app/(site)/reports/[year]/[month]/react-pdf/PDFView.tsx
 
-import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
-import { MONTH_MAP, MonthReportData } from '@/app/global';
-import { ExpenseSheetPDF } from './react-pdf/ExpenseSheetPDF';
+import React from "react";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+} from "@react-pdf/renderer";
+import { MONTH_MAP, MonthReportData } from "@/app/global";
+import { ExpenseSheetPDF } from "./react-pdf/ExpenseSheetPDF";
+import { SpendingBreakdownPDF } from "./react-pdf/SpendingBreakdownPDF";
+import { AccountSummaryPDF } from "./react-pdf/AccountSummaryPDF";
 
 interface PDFViewProps {
   data: MonthReportData;
 }
 
-// Styles
 const styles = StyleSheet.create({
-  page: { padding: 24, fontFamily: 'Helvetica' },
-  section: { marginBottom: 16 },
-  headerContainer: { textAlign: 'center', marginBottom: 24 },
-  title: { fontSize: 24, fontWeight: 'bold' },
-  subtitle: { fontSize: 14, color: '#555' },
-  summaryTable: { width: '100%', marginBottom: 16 },
-  tableRow: { flexDirection: 'row', borderBottomWidth: 1, borderColor: '#ddd', paddingVertical: 4 },
-  tableCellLabel: { flex: 3, fontSize: 12, fontWeight: 'bold' },
-  tableCellValue: { flex: 1, fontSize: 12, textAlign: 'right' },
-  chartContainer: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16 },
-  chartBox: { width: '48%', height: 200, borderWidth: 1, borderColor: '#ccc', alignItems: 'center', justifyContent: 'center' },
-  bulletList: { marginLeft: 16, marginBottom: 16 },
-  bulletItem: { flexDirection: 'row', fontSize: 12, marginBottom: 4 },
-  bulletDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#000', marginRight: 8, marginTop: 6 },
-  sectionTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 8, borderBottomWidth: 1, borderColor: '#ddd' },
+  page: { padding: 24, fontFamily: "Helvetica" },
+  title: { fontSize: 18, fontWeight: "bold" },
+  logo: { width: 50, height: 50, marginRight: 8 },
+  section: {
+    margin: 24,
+    fontSize: 13,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
 });
 
 export const PDFView: React.FC<PDFViewProps> = ({ data }) => {
-  const { year, month, user, gains, losses, totalGained, totalLost } = data;
+  const { year, month, user, gains, losses, totalGained, totalLost, stats } =
+    data;
 
-  // Category totals for bullets
   const categoryTotals: Record<string, number> = {};
-  losses.forEach(exp => { categoryTotals[exp.category] = (categoryTotals[exp.category] || 0) + exp.amount; });
+  losses.forEach((exp) => {
+    categoryTotals[exp.category] =
+      (categoryTotals[exp.category] || 0) + exp.amount;
+  });
 
-  const biggestCategory = Object.keys(categoryTotals).reduce((a, b) => categoryTotals[a] > categoryTotals[b] ? a : b, Object.keys(categoryTotals)[0] || '');
-  const biggestAmount = categoryTotals[biggestCategory] || 0;
-  const biggestPct = totalLost ? (biggestAmount / totalLost) * 100 : 0;
+  const categoryTotalsForExpenses: Record<string, number> = {};
+  for (const exp of losses) {
+    const { category, amount } = exp;
+    categoryTotalsForExpenses[category] =
+      (categoryTotalsForExpenses[category] || 0) + amount;
+  }
 
-  const totalTransactions = losses.length;
+  const categoryTotalsForProfit: Record<string, number> = {};
+  for (const exp of gains) {
+    const { category, amount } = exp;
+    categoryTotalsForProfit[category] =
+      (categoryTotalsForProfit[category] || 0) + amount;
+  }
 
   return (
     <Document>
       <Page size="A4" style={styles.page} wrap>
-        {/* Header */}
-        <View style={styles.headerContainer}>
-          <Text style={styles.title}>Pocket Panda</Text>
-          <Text style={styles.subtitle}>{MONTH_MAP[month]} {year} Report</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 16,
+          }}
+        >
+          <Image src="/static/PocketPanda.png" style={styles.logo} />
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>Pocket Panda</Text>
         </View>
-
-        {/* Account Summary */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Monthly Summary</Text>
-          <View style={styles.summaryTable}>
-            {user?.name && (
-              <View style={styles.tableRow}>
-                <Text style={styles.tableCellLabel}>Account Holder</Text>
-                <Text style={styles.tableCellValue}>{user.name}</Text>
-              </View>
-            )}
-            <View style={styles.tableRow}>
-              <Text style={styles.tableCellLabel}>Total Gains</Text>
-              <Text style={styles.tableCellValue}>${totalGained.toFixed(2)}</Text>
-            </View>
-            <View style={styles.tableRow}>
-              <Text style={styles.tableCellLabel}>Total Expenses</Text>
-              <Text style={styles.tableCellValue}>${totalLost.toFixed(2)}</Text>
-            </View>
-            <View style={styles.tableRow}>
-              <Text style={styles.tableCellLabel}>Net Balance</Text>
-              <Text style={styles.tableCellValue}>${(totalGained - totalLost).toFixed(2)}</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Spending Breakdown */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Spending Breakdown</Text>
-          <View style={styles.chartContainer}>
-            <View style={styles.chartBox}>
-              {/* Placeholder for pie chart image */}
-              <Text>Pie Chart</Text>
-            </View>
-            <View style={styles.bulletList}>
-              {/* Bullet items */}
-              <View style={styles.bulletItem}><View style={styles.bulletDot}/><Text>Total Spending: ${totalLost.toFixed(2)}</Text></View>
-              <View style={styles.bulletItem}><View style={styles.bulletDot}/><Text>Highest Category: {biggestCategory} ({biggestPct.toFixed(1)}%)</Text></View>
-              <View style={styles.bulletItem}><View style={styles.bulletDot}/><Text>Total Transactions: {totalTransactions}</Text></View>
-            </View>
-          </View>
-        </View>
-
+        <Text style={styles.title}>
+          {MONTH_MAP[month]} {year} Report
+        </Text>
+        <AccountSummaryPDF
+          data={data}
+          totalLost={totalLost}
+          totalGained={totalGained}
+          categoryTotalsForExpenses={categoryTotalsForExpenses}
+          categoryTotalsForProfit={categoryTotalsForProfit}
+        />
+      </Page>
+      <Page size="A4" style={styles.page} wrap>
+        {/* <SpendingBreakdownPDF stats={stats} losses={losses} /> */}
         {/* Detailed Expenses */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Detailed Expenses</Text>

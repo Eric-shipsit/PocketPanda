@@ -154,16 +154,16 @@ export default function PieChartFlex({
               />
             ))}
 
-          {labelOn && (
-            <Label
-              position="center"
-              value={activeTotal.toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
-              })}
-              className="fill-current text-white text-base sm:text-lg md:text-xl lg:text-2xl font-semibold"
-            />
-          )}
+            {labelOn && (
+              <Label
+                position="center"
+                value={activeTotal.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
+                className="fill-current text-white text-base sm:text-lg md:text-xl lg:text-2xl font-semibold"
+              />
+            )}
           </Pie>
           <Tooltip />
           {legendOn && (

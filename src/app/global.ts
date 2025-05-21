@@ -39,6 +39,11 @@ export interface YearDat {
   year: string;
 }
 
+export interface FilterOpt {
+  text: string;
+  select: string;
+}
+
 export const MONTH_MAP: MonthMap = {
   1: "January",
   2: "February",
@@ -83,6 +88,7 @@ export interface User {
   name: string;
   email: string;
   image?: string;
+  role?: string;
 }
 
 export const formatExpenses = (data: Expense[]) => {
@@ -117,4 +123,15 @@ export interface MonthReportData {
   totalGained: number;
   totalLost: number;
   user?: User;
+  stats: MonthReportStats;
+}
+
+export interface MonthReportStats {
+  totalLost: number;
+  biggestExpenseCategory: string;
+  categoryTotalsForExpenses: Record<string, number>;
+  biggestExpensePercentage: number;
+  biggestPurchaseText: string;
+  highestOccCategory: string;
+  categoryCounts: Record<string, number>;
 }
