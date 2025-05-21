@@ -11,11 +11,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const LineChartExpense = ({ data }: { data: YearChartData[] }) => {
+const LineChartExpense = ({ data, gridOn = true}: { data: YearChartData[], gridOn?: boolean }) => {
   return (
     <ResponsiveContainer width="100%" minHeight={500}>
       <LineChart data={data}>
-        <CartesianGrid strokeDasharray="3 3" />
+        
+      {gridOn && ( <CartesianGrid strokeDasharray="3 3" /> )}
         <XAxis dataKey="month" />
         <YAxis dataKey="spend" />
         <Tooltip />

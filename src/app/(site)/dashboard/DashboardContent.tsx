@@ -12,9 +12,11 @@ import {
 } from "global";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { ChartLine, ChevronRight, PieChart } from "lucide-react";
-import Link from "next/link";
-import PieChartFlex from "@/app/components/graphs/PieChartFlex";
+import ThisMonthCard from "./components/ThisMonthCard";
+import { formatChartData } from "../year/YearContent";
+import LineChartExpense from "@/app/components/graphs/LineChartExpense";
+import { fetchLastThreeMonthsExpenses } from "./components/fetchOldExpenses";
+import TextButton from "@/app/components/buttons/TextButton";
 
 const getMostRecentMonth = (curMonth: number, expenses: FormattedExpense) => {
   for (let i = curMonth; i >= 1; i--) {
@@ -56,92 +58,86 @@ const DashboardContent = () => {
 
   const now = new Date();
   const month = getMostRecentMonth(now.getMonth() + 1, expenses);
+  const q = String(now.getFullYear());
+  const lastMonth = q === String(now.getFullYear()) ? now.getMonth() + 1 : 12;
+  const [threeMonths, setThreeMonths] = useState<Expense[][]>([]);
+  const [labels, setLabels] = useState<Date[]>([]);
+
+  useEffect(() => {
+    // 1) compute the labels
+    const now = new Date();
+    let month = now.getMonth();
+    let year = now.getFullYear();
+
+    const lbls: Date[] = [];
+    for (let i = 0; i < 3; i++) {
+      lbls.push(new Date(year, month));
+      month -= 1;
+      if (month === 0) {
+        month = 12;
+        year -= 1;
+      }
+    }
+    setLabels(lbls);
+
+    // 2) fetch the expenses
+    fetchLastThreeMonthsExpenses().then((res) => {
+      setThreeMonths(res);
+    });
+  }, []);
+
 
   return (
-    <div className="min-w-full mx-auto max-h-full">
-      <div className="flex flex-col gap-6 h-full">
+    <div className="flex-1 overflow-auto box-border p-8">
+      <div className="flex flex-col gap-6">
         {/* Main Welcome Box */}
         <Card>
           <IntroductionSection
-            expenses={expenses[now.getMonth() + 1]?.individual.filter(
-              (val) => val.category !== "Paycheck",
-            )}
             loading={loading}
           />
         </Card>
 
-        <div className="flex flex-col gap-6 grow md:flex-row max-h-full">
-          {/* Additional Box 1 */}
-          {month !== -1 && (
-            <Card className="min-w-1/2">
-              <div className="flex flex-col h-full">
-                <div className="flex flex-row items-center mb-2">
-                  <h2 className="text-xl font-semibold text-gray-900">
-                    This Year
-                  </h2>
-                  <ChartLine size={18} className="ml-1 mt-0.5" />
-                  <Link href="/year" className="ml-auto">
-                    <ChevronRight
-                      className={"rounded-full hover:" + HOVER_COLOR}
-                    />
-                  </Link>
+        {month !== -1 && (
+          <div className = "flex flex-col md:flex-row gap-6">
+            <div className = "w-full md:w-1/2 flex flex-col gap-6">
+              <Card>
+                <h2 className = "text-xl font-semibold text-gray-900 pb-2 mb-4">Past month's reports</h2>
+                <div className="flex flex-row justify-end">
+                  <TextButton text="See all reports..." href="/reports"/>
                 </div>
-                <div className="overflow-auto max-h-full">
-                  {loading ? (
-                    <Skeleton count={8} className="pb-5" />
-                  ) : (
-                    <ul className="space-y-2">
-                      {Object.keys(expenses).map((k) => {
-                        return (
-                          <li
-                            key={k}
-                            className={"flex justify-between border-b pb-2"}
-                          >
-                            <div>
-                              <p className="font-medium">
-                                {MONTH_MAP[Number(k)]}
-                              </p>
-                              <p className="text-sm text-gray-500">
-                                ${expenses[Number(k)].total}
-                              </p>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
-                </div>
-              </div>
-            </Card>
-          )}
-
-          {/* Additional Box 2 */}
-          {month !== -1 && (
-            <Card className="grow h-full">
-              <div className="flex flex-col h-full max-h-full max-w-full">
-                <div className="flex flex-row items-center">
-                  <h2 className="text-xl font-semibold text-gray-900">
-                    {MONTH_MAP[month]}
-                  </h2>
-                  <PieChart size={18} className="ml-1 mt-0.5" />
-                  <Link href="/this-month" className="ml-auto">
-                    <ChevronRight
-                      className={"rounded-full hover:" + HOVER_COLOR}
-                    />
-                  </Link>
-                </div>
-                <div className="overflow-auto grow">
-                  <PieChartFlex
-                    groupByCategory={true}
-                    data={expenses[month]?.individual.filter(
-                      (val) => val.category !== "Paycheck",
+                {threeMonths.map((expensesForMonth, idx) => (
+                  <div key={idx} className="mb-4">
+                    {expensesForMonth.length && (
+                      <TextButton
+                        text = {`${MONTH_MAP[labels[idx].getMonth()]} ${labels[idx].getFullYear()}`}
+                        size = {18}
+                        href={`/reports/${labels[idx].getFullYear()}/${labels[idx].getMonth()}`}
+                      />
                     )}
-                  />
+                  </div>
+                ))}
+              </Card>
+              <Card>
+                <h2 className = "text-xl font-semibold text-gray-900 pb-2 mb-4">This year's spending</h2>
+                <div className="flex flex-row justify-end">
+                  <TextButton text="See more..." href="/year"/>
                 </div>
-              </div>
-            </Card>
-          )}
-        </div>
+                <LineChartExpense gridOn={false} data={formatChartData(expenses, lastMonth)} />
+              </Card>
+            </div>
+            <div className = "w-full md:w-1/2 flex flex-col gap-6">
+              {month !== -1 && (
+                <Card>
+                  <h2 className = "text-xl font-semibold text-gray-900 pb-2 mb-4">This month's breakdown</h2>
+                  <div className="flex flex-row justify-end">
+                    <TextButton text="Add to this month..." href = "/this-month" />
+                  </div>
+                  <ThisMonthCard expenses={expenses} month={month} />
+                </Card>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

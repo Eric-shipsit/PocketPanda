@@ -69,6 +69,7 @@ export default function PieChartFlex({
   const didInit = useRef(false);
 
   useEffect(() => {
+    console.log("test");
     if (!didInit.current && categories.length > 0) {
       setActiveCategories(categories);
       didInit.current = true;

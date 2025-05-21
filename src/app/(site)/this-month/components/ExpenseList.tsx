@@ -46,12 +46,12 @@ export default function ExpenseList({
                       <p
                         className={clsx(
                           `absolute bottom-0 right-8 font-semibold`,
-                          exp.category == "paycheck"
-                            ? "text-green-600"
+                          exp.category == "Paycheck"
+                            ? "text-blue-600"
                             : "text-red-600",
                         )}
                       >
-                        {exp.category === "paycheck" ? "+" : "-"}$
+                        {exp.category === "Paycheck" ? "+" : "-"}$
                         {Math.abs(exp.amount).toFixed(2)}
                       </p>
                     </div>

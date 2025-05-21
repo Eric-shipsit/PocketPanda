@@ -12,7 +12,7 @@ interface YearDat {
   year: string;
 }
 
-const formatChartData = (data: FormattedExpense, lastMonth: number) => {
+export const formatChartData = (data: FormattedExpense, lastMonth: number) => {
   let formattedData = [];
   let cumSum = 0;
   let cumIn = 0;
