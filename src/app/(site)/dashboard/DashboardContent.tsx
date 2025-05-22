@@ -96,26 +96,40 @@ const DashboardContent = () => {
             loading={loading}
           />
         </Card>
-
-        {month !== -1 && (
+        {loading ? (
+          <Skeleton count={8} className="pb-5" />
+        ) : (
           <div className = "flex flex-col md:flex-row gap-6">
             <div className = "w-full md:w-1/2 flex flex-col gap-6">
               <Card>
-                <h2 className = "text-xl font-semibold text-gray-900 pb-2 mb-4">Past month's reports</h2>
-                <div className="flex flex-row justify-end">
-                  <TextButton text="See all reports..." href="/reports"/>
-                </div>
-                {threeMonths.map((expensesForMonth, idx) => (
-                  <div key={idx} className="mb-4">
-                    {expensesForMonth.length && (
-                      <TextButton
-                        text = {`${MONTH_MAP[labels[idx].getMonth()]} ${labels[idx].getFullYear()}`}
-                        size = {18}
-                        href={`/reports/${labels[idx].getFullYear()}/${labels[idx].getMonth()}`}
-                      />
-                    )}
+                { month !== -1 ? (
+                <>
+                  <h2 className = "text-xl font-semibold text-gray-900 pb-2 mb-4">Past month's reports</h2>
+                  <div className="flex flex-row justify-end">
+                    <TextButton text="See all reports..." href="/reports"/>
                   </div>
-                ))}
+                  {threeMonths.map((expensesForMonth, idx) => {
+                    if (expensesForMonth.length === 0) return null;
+                    const date = labels[idx];
+                    const monthNum = date.getMonth() + 1;
+                    const yearNum  = date.getFullYear();
+
+                    return (
+                      <div key={idx} className="mb-4">
+                        <TextButton
+                          text={`${MONTH_MAP[monthNum]} ${yearNum}`}
+                          size={18}
+                          href={`/reports/${yearNum}/${monthNum}`}
+                        />
+                      </div>
+                    );
+                  })}
+                </>
+                ) : (
+                  <div className="flex items-center justify-center p-6 text-gray-500 italic">
+                  No reports available this month.
+                </div>
+                )}
               </Card>
               <Card>
                 <h2 className = "text-xl font-semibold text-gray-900 pb-2 mb-4">This year's spending</h2>
@@ -126,15 +140,17 @@ const DashboardContent = () => {
               </Card>
             </div>
             <div className = "w-full md:w-1/2 flex flex-col gap-6">
-              {month !== -1 && (
-                <Card>
-                  <h2 className = "text-xl font-semibold text-gray-900 pb-2 mb-4">This month's breakdown</h2>
-                  <div className="flex flex-row justify-end">
-                    <TextButton text="Add to this month..." href = "/this-month" />
-                  </div>
+              <Card>
+                <h2 className = "text-xl font-semibold text-gray-900 pb-2 mb-4">This month's activity</h2>
+                <div className="flex flex-row justify-end">
+                  <TextButton text="Add to this month..." href = "/this-month" />
+                </div>
+                {month !== -1 ? (
                   <ThisMonthCard expenses={expenses} month={month} />
-                </Card>
-              )}
+                ) : (
+                  <ThisMonthCard expenses={[]} month={month} />
+                )}
+              </Card>
             </div>
           </div>
         )}

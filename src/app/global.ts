@@ -135,3 +135,9 @@ export interface MonthReportStats {
   highestOccCategory: string;
   categoryCounts: Record<string, number>;
 }
+
+export interface graphData {
+  name: string;
+  amount: number;
+  category?: string;
+}

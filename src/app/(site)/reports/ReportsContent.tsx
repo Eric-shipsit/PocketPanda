@@ -2,17 +2,32 @@
 import Link from "next/link";
 import prisma from "@/app/libs/prismadb";
 import { MONTH_MAP } from "@/app/global";
+import getCurrentUser from "@/app/actions/getCurrentUser";
+import { redirect } from "next/navigation";
 
 export default async function ReportsContent() {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+  const currentUser = await getCurrentUser();
+  if (!currentUser) {
+    return redirect("/");
+  }
   // Fetch distinct year-month combinations
   const monthYears = await prisma.expense.groupBy({
     by: ["year", "month"],
+    where: { userId: currentUser.id },
     orderBy: [{ year: "desc" }, { month: "desc" }],
   });
 
+  const pastMonthYears = monthYears.filter(({ year, month }) =>
+    year < currentYear ||
+    (year === currentYear && month <= currentMonth)
+  );
+
   // Build a map of years to their months
   const groupedByYear: Record<number, number[]> = {};
-  for (const { year, month } of monthYears) {
+  for (const { year, month } of pastMonthYears) {
     groupedByYear[year] = groupedByYear[year] || [];
     groupedByYear[year].push(month);
   }
@@ -46,6 +61,9 @@ export default async function ReportsContent() {
             </div>
           </section>
         ))}
+        {sortedYearEntries.length === 0 && (
+          <p className="text-center text-gray-600">No reports available.</p>
+        )}
       </div>
     </div>
   );

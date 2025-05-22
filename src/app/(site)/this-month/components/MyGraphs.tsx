@@ -3,6 +3,7 @@
 "use client";
 
 import TextButton from "@/app/components/buttons/TextButton";
+import EmptyPieChartFlex from "@/app/components/graphs/EmptyPieChartFlex";
 import PieChartFlex from "@/app/components/graphs/PieChartFlex";
 import StackedBarGraph from "@/app/components/graphs/StackedBarGraph";
 import { Expense } from "@/app/global";
@@ -122,7 +123,7 @@ export default function MyGraphs({ data }: MyGraphsProps) {
       </div>
       {/* Chart wrapper */}
       <div className="flex-1 min-h-0 overflow-hidden">
-        {chartTracker === "PIE" && (
+        {chartTracker === "PIE" && filteredExpenses.length !== 0 && (
           <PieChartFlex
             data={filteredExpenses}
             groupByCategory={groupByCategory}
@@ -136,6 +137,9 @@ export default function MyGraphs({ data }: MyGraphsProps) {
               setIsMainGraph(false);
             }}
           />
+        )}
+        {chartTracker === "PIE" && filteredExpenses.length === 0 && (
+          <EmptyPieChartFlex />
         )}
         {chartTracker === "BAR" && <StackedBarGraph data={barGraphData} />}
       </div>
