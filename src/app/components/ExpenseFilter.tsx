@@ -1,5 +1,3 @@
-// src/app/components/ExpenseFilter.tsx
-
 import React from "react";
 import { Input, Select } from "@headlessui/react";
 import { Search, ChevronDown, X } from "lucide-react";

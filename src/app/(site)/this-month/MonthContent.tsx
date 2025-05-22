@@ -156,6 +156,7 @@ export default function MonthContent() {
             </SlideInDrawer>
             <div className="w-full flex justify-between items-center pr-1 mb-1">
               <span className="text-lg">This Month's Transactions</span>
+
               <TextButton
                 text=""
                 icon={Plus}
