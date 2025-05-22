@@ -9,6 +9,7 @@ interface TextButtonProps {
   onClick?: () => void;
   size?: number;
   color?: string;
+  className?: string;
 }
 
 export default function TextButton({
@@ -18,7 +19,13 @@ export default function TextButton({
   icon: Icon,
   size = 14,
   color = "blue",
+  className = "",
 }: TextButtonProps) {
+  const wrapperClasses = clsx(
+    "inline-flex items-center hover:underline",
+    className
+  );
+
   const content = (
     <span
       style={{ fontSize: `${size}px`, color: `${color}` }}
@@ -26,7 +33,7 @@ export default function TextButton({
         inline-flex
         items-center
         hover:underline
-      `)}
+      `, className)}
     >
       {Icon && <Icon size={size} />}
       {text}

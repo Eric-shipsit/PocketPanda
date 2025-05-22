@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import ExpenseList from "./components/ExpenseList";
 import MyGraphs from "./components/MyGraphs";
-import { Expense, FilterOpt } from "@/app/global";
+import { Expense, FilterOpt, MONTH_MAP } from "@/app/global";
 import { Edit, Plus } from "lucide-react";
 import TextButton from "@/app/components/buttons/TextButton";
 import SlideInDrawer from "components/SlideInDrawer";
@@ -106,24 +106,31 @@ export default function MonthContent() {
                 setIsExpenseViewOpen(false);
               }}
             >
-              <div className="flex flex-col">
-                <div className="flex flex-row justify-between">
-                  <h2>{focusedExpense?.name}</h2>
+              <div className="bg-white p-4 w-full max-w-md mx-auto">
+                <div className="flex items-center justify-between mb-3">
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    {focusedExpense?.name}
+                  </h2>
                   <TextButton
                     icon={Edit}
-                    onClick={() => {
-                      setAddOrUpdateExpense(true);
-                    }}
+                    onClick={() => setAddOrUpdateExpense(true)}
+                    className="text-gray-500 hover:text-gray-700"
                   />
                 </div>
-
-                <h3>{focusedExpense?.category}</h3>
-                <h3>{focusedExpense?.description}</h3>
-                <h3>{focusedExpense?.amount}</h3>
-                <h3>
-                  {focusedExpense?.month} {focusedExpense?.day},{" "}
-                  {focusedExpense?.year}
-                </h3>
+                <div className="space-y-1 text-gray-600">
+                  <p className="text-sm uppercase tracking-wide">
+                    {focusedExpense?.category}
+                  </p>
+                  <p className="text-base">
+                    {focusedExpense?.description}
+                  </p>
+                  <p className="text-lg font-medium text-green-600">
+                    ${focusedExpense?.amount.toFixed(2)}
+                  </p>
+                  <p className="text-sm">
+                    {MONTH_MAP[focusedExpense?.month]} {focusedExpense?.day}, {focusedExpense?.year}
+                  </p>
+                </div>
               </div>
             </SlideInDrawer>
             <SlideInDrawer

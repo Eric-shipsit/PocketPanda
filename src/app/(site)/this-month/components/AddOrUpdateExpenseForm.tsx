@@ -17,9 +17,7 @@ interface ExpenseFormData {
 
 interface Props {
   initialData?: Expense;
-  // Called after successful add or update
   onSuccess: (expense: Expense) => void;
-  // Called to cancel/close the form
   onCancel: () => void;
   onDelete: () => void;
   isOpen: boolean;
