@@ -128,7 +128,12 @@ export default function MonthContent() {
                     ${focusedExpense?.amount.toFixed(2)}
                   </p>
                   <p className="text-sm">
-                    {MONTH_MAP[focusedExpense?.month]} {focusedExpense?.day}, {focusedExpense?.year}
+                    { focusedExpense?.month != null 
+                      ? MONTH_MAP[focusedExpense.month] 
+                      : "—"
+                    }
+                    {focusedExpense?.day},
+                    {focusedExpense?.year}
                   </p>
                 </div>
               </div>
