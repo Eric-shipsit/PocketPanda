@@ -1,0 +1,50 @@
+// File layout:
+//
+// app/reports/[id]/
+// ├── page.tsx
+// ├── DesktopView.tsx
+// └── PDFView.client.tsx
+
+
+
+        {/* Account Summary */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Monthly Summary</Text>
+          <View style={styles.summaryTable}>
+            {user?.name && (
+              <View style={styles.tableRow}>
+                <Text style={styles.tableCellLabel}>Account Holder</Text>
+                <Text style={styles.tableCellValue}>{user.name}</Text>
+              </View>
+            )}
+            <View style={styles.tableRow}>
+              <Text style={styles.tableCellLabel}>Total Gains</Text>
+              <Text style={styles.tableCellValue}>${totalGained.toFixed(2)}</Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.tableCellLabel}>Total Expenses</Text>
+              <Text style={styles.tableCellValue}>${totalLost.toFixed(2)}</Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.tableCellLabel}>Net Balance</Text>
+              <Text style={styles.tableCellValue}>${(totalGained - totalLost).toFixed(2)}</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Spending Breakdown */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Spending Breakdown</Text>
+          <View style={styles.chartContainer}>
+            <View style={styles.chartBox}>
+              {/* Placeholder for pie chart image */}
+              <Text>Pie Chart</Text>
+            </View>
+            <View style={styles.bulletList}>
+              {/* Bullet items */}
+              <View style={styles.bulletItem}><View style={styles.bulletDot}/><Text>Total Spending: ${totalLost.toFixed(2)}</Text></View>
+              <View style={styles.bulletItem}><View style={styles.bulletDot}/><Text>Highest Category: {biggestCategory} ({biggestPct.toFixed(1)}%)</Text></View>
+              <View style={styles.bulletItem}><View style={styles.bulletDot}/><Text>Total Transactions: {totalTransactions}</Text></View>
+            </View>
+          </View>
+        </View>

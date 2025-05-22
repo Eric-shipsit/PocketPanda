@@ -113,3 +113,31 @@ export const formatExpenses = (data: Expense[]) => {
 };
 
 export const HOVER_COLOR = "bg-gray-100";
+
+export interface MonthReportData {
+  expenses: Expense[];
+  month: number;
+  year: number;
+  gains: Expense[];
+  losses: Expense[];
+  totalGained: number;
+  totalLost: number;
+  user?: User;
+  stats: MonthReportStats;
+}
+
+export interface MonthReportStats {
+  totalLost: number;
+  biggestExpenseCategory: string;
+  categoryTotalsForExpenses: Record<string, number>;
+  biggestExpensePercentage: number;
+  biggestPurchaseText: string;
+  highestOccCategory: string;
+  categoryCounts: Record<string, number>;
+}
+
+export interface graphData {
+  name: string;
+  amount: number;
+  category?: string;
+}

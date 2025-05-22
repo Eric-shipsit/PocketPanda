@@ -16,5 +16,6 @@ export const config = {
     "/this-month/:path*",
     "/year/:path*",
     "/dev/:path*",
+    "/reports/:path*",
   ],
 };

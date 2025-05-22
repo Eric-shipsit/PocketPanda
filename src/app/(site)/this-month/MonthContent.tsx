@@ -95,7 +95,7 @@ export default function MonthContent() {
       </div>
       <div className="flex-1 flex flex-col-reverse lg:flex-row items-stretch min-h-0">
         <div className="flex-1 p-6 flex flex-col overflow-auto">
-          <div className="relative overflow-hidden bg-white rounded-lg border border-gray-200 shadow-sm p-3 pr-1 flex flex-col h-full ">
+          <div className="relative overflow-hidden bg-white rounded-lg border border-gray-200 shadow-sm p-3 flex flex-col h-full ">
             <SlideInDrawer
               direction="right"
               width="w-3/4"
@@ -155,7 +155,8 @@ export default function MonthContent() {
               />
             </SlideInDrawer>
             <div className="w-full flex justify-between items-center pr-1 mb-1">
-              <span className="text-lg">This Month's Expenses</span>
+              <span className="text-lg">This Month's Transactions</span>
+
               <TextButton
                 text=""
                 icon={Plus}
@@ -168,14 +169,21 @@ export default function MonthContent() {
             </div>
             <ExpenseFilter data={filterData} cb={setFilterData} />
             <div className="mt-2 flex-1 overflow-auto">
-              <ExpenseList
-                expenses={filteredExpenses}
-                loading={loading}
-                onEdit={(expense) => {
-                  setIsExpenseViewOpen(true);
-                  setFocusedExpense(expense);
-                }}
-              />
+              {filteredExpenses.length !== 0 ? (
+                <ExpenseList
+                  expenses={filteredExpenses}
+                  loading={loading}
+                  onEdit={(expense) => {
+                    setIsExpenseViewOpen(true);
+                    setFocusedExpense(expense);
+                  }}
+                />
+                ) :(
+                  <div className="flex h-full w-full items-center justify-center p-4 text-gray-500 italic">
+                    No available data
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>

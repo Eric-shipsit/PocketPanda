@@ -11,7 +11,6 @@ declare module "next-auth" {
     id: string;
     role: string;
   }
-
 }
 
 declare module "next-auth/jwt" {

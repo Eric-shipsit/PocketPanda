@@ -1,16 +1,16 @@
-import React, { JSX } from "react";
+import React, { JSX, ReactNode } from "react";
 
 const Card = ({
   children,
   className,
 }: {
-  children: JSX.Element;
+  children: ReactNode;
   className?: string;
 }) => {
   return (
     <div
       className={
-        " bg-white shadow-md rounded-lg p-6" +
+        " bg-white shadow-md rounded-lg p-6 flex flex-col" +
         (className ? " " + className : "")
       }
     >

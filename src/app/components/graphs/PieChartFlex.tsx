@@ -10,16 +10,11 @@ import {
   Label,
 } from "recharts";
 import React, { useMemo, useState, useEffect, act, useRef } from "react";
+import { graphData } from "@/app/global";
 
 interface ChartSlice {
   name: string;
   value: number;
-}
-
-interface graphData {
-  name: string;
-  amount: number;
-  category?: string;
 }
 
 interface PieChartFlexProps {
@@ -28,8 +23,16 @@ interface PieChartFlexProps {
   chartToggleable?: Boolean;
   legendToggleable?: Boolean;
   legendOn?: Boolean;
+  dataType?: string;
   onFocus?: (category: string) => void;
   groupByCategory?: Boolean;
+  labelOn?: Boolean;
+  innerRadius? : string;
+  outerRadius?: string;
+  startAngle?: number;
+  endAngle?: number;
+  cy?: string;
+  cx?: string;
 }
 
 export default function PieChartFlex({
@@ -54,7 +57,16 @@ export default function PieChartFlex({
   legendOn = true,
   onFocus,
   groupByCategory = false,
+  labelOn = true,
+  innerRadius = "0%",
+  outerRadius = "80%",
+  startAngle = 0,
+  endAngle = 360,
+  cy = "50%",
+  cx = "50%",
+  dataType = "money"
 }: PieChartFlexProps) {
+
   const categories = useMemo<string[]>(() => {
     const cats = data
       .map((e) => e.category)
@@ -72,9 +84,9 @@ export default function PieChartFlex({
       didInit.current = true;
     } else {
       setActiveCategories(categories);
-      console.log("Category was added or deleted");
     }
   }, [categories]);
+
 
   const chartData = useMemo<ChartSlice[]>(() => {
     if (groupByCategory) {
@@ -131,9 +143,12 @@ export default function PieChartFlex({
             data={displayData}
             dataKey="value"
             nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius="60%"
+            cx={cx}
+            cy={cy}
+            innerRadius={innerRadius}
+            outerRadius={outerRadius}
+            startAngle={startAngle}
+            endAngle={endAngle}
             onClick={(entry) => {
               if (chartToggleable) {
                 if (activeCategories.length == 1) {
@@ -151,14 +166,25 @@ export default function PieChartFlex({
                 fill={colors[index % colors.length]}
               />
             ))}
-            <Label
-              position="center"
-              value={activeTotal.toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
-              })}
-              className="fill-current text-white text-base sm:text-lg md:text-xl lg:text-2xl font-semibold"
-            />
+
+            {labelOn && dataType === "money" && (
+              <Label
+                position="center"
+                value={activeTotal.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
+                className="fill-current text-white text-base sm:text-lg md:text-xl lg:text-2xl font-semibold"
+              />
+            )}
+
+            {labelOn && dataType === "number" && (
+              <Label
+                position="center"
+                value={activeTotal + " transactions"}
+                className="fill-current text-black text-base sm:text-lg md:text-xl lg:text-xl font-semibold"
+              />
+            )}
           </Pie>
           <Tooltip />
           {legendOn && (
