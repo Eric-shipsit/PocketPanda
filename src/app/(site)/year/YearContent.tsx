@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import Card from "components/Card";
 import LineChartExpense from "components/graphs/LineChartExpense";
 import { Expense, FormattedExpense, MONTH_MAP, formatExpenses } from "global";
@@ -35,7 +34,6 @@ const YearContent = () => {
   const [year, setYear] = useState<string>("");
 
   const now = new Date();
-  const searchParams = useSearchParams();
   const q = year || String(now.getFullYear());
   const lastMonth = q === String(now.getFullYear()) ? now.getMonth() + 1 : 12;
 
