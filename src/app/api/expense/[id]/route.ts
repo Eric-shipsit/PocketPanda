@@ -6,18 +6,18 @@ import prisma from "@/app/libs/prismadb";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
-  const { id } = params;
   if (!id) {
     return NextResponse.json({ error: "Missing id" }, { status: 400 });
   }
   const expense = await prisma.expense.findFirst({
-    where: { userId: currentUser.id, id: params.id },
+    where: { userId: currentUser.id, id },
   });
 
   if (!expense) {
@@ -29,13 +29,13 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
-  const { id } = params;
   if (!id) {
     return NextResponse.json({ error: "Missing id" }, { status: 400 });
   }
@@ -90,7 +90,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const currentUser = await getCurrentUser();
