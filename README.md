@@ -30,7 +30,7 @@ Pocket Panda is a personal expense tracking web application that helps you monit
 
 1. **Clone the repository**  
    ```bash
-   git clone https://github.com/<your-username>/pocket-panda.git
+   git clone https://github.com/Eric-shipsit/PocketPanda.git
    cd pocket-panda
 2. **Environment Variables** 
    Create a .env.local file in the project root and add the following variables:
