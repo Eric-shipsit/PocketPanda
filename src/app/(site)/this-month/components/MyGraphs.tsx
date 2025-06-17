@@ -81,7 +81,7 @@ export default function MyGraphs({ data }: MyGraphsProps) {
           }`}
           onClick={() => setChartTracker("BAR")}
         >
-          Line Chart
+          Bar Chart
         </button>
       </div>
       <div className="flex flex-col items-start space-y-4 mb-4">
